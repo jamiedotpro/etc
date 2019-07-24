@@ -90,8 +90,11 @@ print(y2_predict)
 from sklearn.metrics import mean_squared_error
 def RMSE(y_test, y_predict):
     return np.sqrt(mean_squared_error(y_test, y_predict))
-print('RMSE : ', RMSE(y1_test, y1_predict))   # 낮을수록 좋음
-print('RMSE : ', RMSE(y2_test, y2_predict))
+RMSE1 = RMSE(y1_test, y1_predict)
+RMSE2 = RMSE(y2_test, y2_predict)
+print('RMSE1 : ', RMSE1)   # 낮을수록 좋음
+print('RMSE2 : ', RMSE2)
+print('RMSE : ', (RMSE1 + RMSE2)/2)
 
 # RMAE : RMSE 와 다르게 절대값으로 계산
 #from sklearn.metrics import mean_absolute_error
@@ -101,6 +104,7 @@ print('RMSE : ', RMSE(y2_test, y2_predict))
 # 다른 평가모델과 r2를 혼용해서 쓰는 경우가 있음
 from sklearn.metrics import r2_score
 r2_y1_predict = r2_score(y1_test, y1_predict)
-print('R2 : ', r2_y1_predict)
 r2_y2_predict = r2_score(y2_test, y2_predict)
-print('R2 : ', r2_y2_predict)
+print('R2 _1 : ', r2_y1_predict)
+print('R2 _2 : ', r2_y2_predict)
+print('R2 : ', (r2_y1_predict + r2_y2_predict) / 2)
