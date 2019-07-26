@@ -29,26 +29,28 @@ model = Sequential()
 
 # 깊이, 노드 개수, epochs, batch_size 순으로 조정
 model.add(Dense(1000, input_shape=(3, ), activation='relu', kernel_regularizer=regularizers.l1(0.01)))  # kernel_regularizer 0.01 일반적으로 많이 씀(0~1). 오버핏 방지
-model.add(Dropout(0.8)) #(??%의 레이어를 사용하지 않겠다)
+model.add(Dropout(0.99)) #(??%의 레이어를 사용하지 않겠다)
 model.add(Dense(1000, kernel_regularizer=regularizers.l1(0.01)))
-model.add(Dropout(0.8)) #(??%의 레이어를 사용하지 않겠다)
-model.add(BatchNormalization()) # 오버핏 방지
+model.add(Dropout(0.99)) #(??%의 레이어를 사용하지 않겠다)
+#model.add(BatchNormalization()) # 오버핏 방지
 model.add(Dense(1000))
-model.add(Dropout(0.8)) #(??%의 레이어를 사용하지 않겠다)
+model.add(Dropout(0.99)) #(바로 위에 있는 레이어의 ??%의 노드를 사용하지 않겠다)
 model.add(Dense(1000, kernel_regularizer=regularizers.l1(0.01)))
-model.add(Dropout(0.8)) #(??%의 레이어를 사용하지 않겠다)
+model.add(Dropout(0.99)) #(??%의 레이어를 사용하지 않겠다)
 model.add(Dense(1000, kernel_regularizer=regularizers.l1(0.01)))
-model.add(Dropout(0.8)) #(??%의 레이어를 사용하지 않겠다)
+model.add(Dropout(0.99)) #(??%의 레이어를 사용하지 않겠다)
 model.add(Dense(1))
 
 # 3. 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
-model.fit(x_train, y_train, epochs=100, batch_size=8, validation_data=(x_val, y_val))
+from keras.callbacks import EarlyStopping
+early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
+model.fit(x_train, y_train, epochs=100, batch_size=1, callbacks=[early_stopping], validation_data=(x_val, y_val))
 
 model.summary()
 
 # 4. 평가 예측
-loss, acc = model.evaluate(x_test, y_test, batch_size=8)
+loss, acc = model.evaluate(x_test, y_test, batch_size=1)
 print('acc : ', acc)
 
 y_predict = model.predict(x_test)
