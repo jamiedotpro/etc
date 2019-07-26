@@ -1,0 +1,18 @@
+git pull origin master
+
+git status
+
+git add .
+
+git commit
+or
+git commit -m 'commit message'
+
+git log
+
+git push origin master
+
+# 파일명 변경 시
+git mv --force podfile Podfile
+
+git clone https://github.com/OWEN-JUN/COMPOSE.git
