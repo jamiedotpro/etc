@@ -28,13 +28,21 @@ Y_test = np_utils.to_categorical(Y_test)
 print(Y_train.shape)    # (60000, 10) 원-핫 인코딩(One-hot encoding)...
 print(Y_test.shape)     # 10은 10개로 데이터가 분류된다는 거
 
-# 0부터 9까지의...
+# one-hot(원핫)인코딩이란? 단 하나의 값만 True이고 나머지는 모두 False인 인코딩을 말한다. 
+# 즉, 1개만 Hot(True)이고 나머지는 Cold(False)이다. 
+# 예를들면 [0, 0, 0, 0, 1]이다. 5번째(Zero-based 인덱스이므로 4)만 1이고 나머지는 0이다. 
+
+# 여러 개로 분류하는 분류 문제에서 
+# 타켓 클래스 값을 정수로 사용할 수도 있고 One-Hot 인코딩한 값을 사용할 수도 있다.
+# 연산 편의성, 다양한 모델 적용, 정확도 향상 등의 이유로 인코딩/디코딩한다.
+
+
 # print(X_train.shape)
 # print(X_test.shape)
 # print(Y_train.shape)
 # print(Y_test.shape)
 
-'''
+
 # 컨볼루션 신경망의 설정
 model = Sequential()
 model.add(Conv2D(32, kernel_size=(3,3), input_shape=(28,28,1), activation='relu'))
@@ -65,5 +73,5 @@ history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test),
                     callbacks=[early_stopping_callback])
 
 # 테스트 정확도 출력
+# 분류 모델에서는 Accuracy를 쓰는게 좋음
 print('\n Test Accuracy: %.4f' % (model.evaluate(X_test, Y_test)[1]))
-'''
