@@ -31,44 +31,56 @@ Y_train = np_utils.to_categorical(Y_train, NB_CLASSES)
 Y_test = np_utils.to_categorical(Y_test, NB_CLASSES)
 
 # 실수형으로 지정하고 정규화
-X_train = X_train.astype('float32')
-X_test = X_test.astype('float32')
-X_train /= 255
-X_test /= 255
+# X_train = X_train.astype('float32')
+# X_test = X_test.astype('float32')
+# X_train /= 255
+# X_test /= 255
+
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+#scaler = StandardScaler()
+scaler = MinMaxScaler()
+
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
 
 # 신경망 정의
 model = Sequential()
-# model.add(Conv2D(128, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
-# model.add(Activation('relu'))
-# model.add(Conv2D(256, (3,3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Dropout(0.2))
-# model.add(Conv2D(256, (3,3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(BatchNormalization())
-# model.add(Conv2D(128, (3,3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Dropout(0.2))
+model.add(Conv2D(128, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
+model.add(Activation('relu'))
+model.add(Conv2D(256, (3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.2))
+model.add(Conv2D(256, (3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(BatchNormalization())
+model.add(Conv2D(128, (3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.2))
 
-# model.add(Flatten())
-# model.add(Dense(512))
-# model.add(Activation('relu'))
-# model.add(Dense(512, activation='relu'))
-# model.add(Dense(256, activation='relu'))
-# model.add(Dropout(0.5))
-# model.add(Dense(NB_CLASSES))
-# model.add(Activation('softmax'))
+model.add(Flatten())
+model.add(Dense(512))
+model.add(Activation('relu'))
+model.add(Dense(512, activation='relu'))
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(NB_CLASSES))
+model.add(Activation('softmax'))
 # 0.7884
 
 model.summary()
 
 # 학습
 model.compile(loss='categorical_crossentropy', optimizer=OPTIM, metrics=['accuracy'])
-from keras.callbacks import EarlyStopping
+
+from keras.callbacks import EarlyStopping, TensorBoard
+tb_hist = TensorBoard(log_dir='./graph', histogram_freq=0, write_graph=True, write_images=True)
 early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10)
+
 history = model.fit(X_train, Y_train, batch_size=BATCH_SIZE,
                     epochs=NB_EPOCH, validation_split=VALIDATION_SPLIT, verbose=VERBOSE,
-                    callbacks=[early_stopping_callback])
+                    callbacks=[early_stopping_callback, tb_hist])
 
 print('testing...')
 score = model.evaluate(X_test, Y_test,)
@@ -79,6 +91,12 @@ print('test accuracy:', score[1])
 # model_json = model.to_json()
 # open('cifar10_architecture.json', 'w').write(model_json)
 # model.save_weights('cifar10_weights.h5', overwrite=True)
+
+
+# 사진 한장을 출력(시각화) 확인 후 주석 처리
+digit = X_train[33]
+plt.imshow(digit, cmap=plt.cm.binary)
+plt.show() 
 
 
 # 히스토리에 있는 모든 데이터 나열
