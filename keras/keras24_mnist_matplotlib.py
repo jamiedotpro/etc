@@ -74,9 +74,11 @@ early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10)
 
 # 모델의 실행
 history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test),
-                    epochs=30, batch_size=200, verbose=1,
+                    epochs=1, batch_size=2000, verbose=1,
                     callbacks=[early_stopping_callback])
 
 # 테스트 정확도 출력
 # 분류 모델에서는 Accuracy를 쓰는게 좋음
 print('\n Test Accuracy: %.4f' % (model.evaluate(X_test, Y_test)[1]))
+
+print(history.history.keys())
