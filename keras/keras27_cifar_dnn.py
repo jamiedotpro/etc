@@ -14,7 +14,7 @@ IMG_COLS = 32
 
 # 상수 정의
 BATCH_SIZE = 128
-NB_EPOCH = 40
+NB_EPOCH = 20
 NB_CLASSES = 10
 VERBOSE = 1
 VALIDATION_SPLIT = 0.2
@@ -31,16 +31,10 @@ Y_train = np_utils.to_categorical(Y_train, NB_CLASSES)
 Y_test = np_utils.to_categorical(Y_test, NB_CLASSES)
 
 
-# 실수형으로 지정하고 정규화
-# X_train = X_train.astype('float32')
-# X_test = X_test.astype('float32')
-# X_train /= 255
-# X_test /= 255
-
 # ...Scaler 사용해서 정규화
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-scaler = StandardScaler()   # /255 = 0.78 -> StandardScaler 동일
-#scaler = MinMaxScaler()    # /255 = 0.78 -> MinMaxScaler 0.76
+#scaler = StandardScaler()
+scaler = MinMaxScaler()    # /255 = 0.78 -> MinMaxScaler 0.76
 
 # print(X_train)
 # scaler 사용을 위해 reshape
@@ -58,27 +52,15 @@ X_test = X_test.reshape(10000, 32, 32, 3)
 
 # 신경망 정의
 model = Sequential()
-model.add(Conv2D(128, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
-model.add(Activation('relu'))
-model.add(Conv2D(256, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv2D(256, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(BatchNormalization())
-model.add(Conv2D(128, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-
-model.add(Flatten())
-model.add(Dense(512))
-model.add(Activation('relu'))
+model.add(Dense(512, activation='relu', input_shape=(32 * 32,)))
 model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(512, activation='relu'))
+model.add(Dense(512, activation='relu'))
+model.add(BatchNormalization())
 model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
 model.add(Dense(NB_CLASSES))
 model.add(Activation('softmax'))
-# 0.7884
 
 model.summary()
 
@@ -98,10 +80,7 @@ score = model.evaluate(X_test, Y_test,)
 print('\ntest score:', score[0])
 print('test accuracy:', score[1])
 
-# # 모델 저장
-# model_json = model.to_json()
-# open('cifar10_architecture.json', 'w').write(model_json)
-# model.save_weights('cifar10_weights.h5', overwrite=True)
+
 
 
 # 사진 한장을 출력(시각화) 확인 후 주석 처리
