@@ -30,19 +30,30 @@ print(X_test.shape[0], 'test samples')
 Y_train = np_utils.to_categorical(Y_train, NB_CLASSES)
 Y_test = np_utils.to_categorical(Y_test, NB_CLASSES)
 
+
 # 실수형으로 지정하고 정규화
 # X_train = X_train.astype('float32')
 # X_test = X_test.astype('float32')
 # X_train /= 255
 # X_test /= 255
 
+# ...Scaler 사용해서 정규화
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 #scaler = StandardScaler()
 scaler = MinMaxScaler()
 
+print(X_train)
+# scaler 사용을 위해 reshape
+# 50000, 32, 32, 3
+X_train = X_train.reshape(len(X_train) * 32 * 32, 3)
+X_test = X_test.reshape(len(X_test) * 32 * 32, 3)
+
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
+
+X_train = X_train.reshape(50000, 32, 32, 3)
+X_test = X_test.reshape(10000, 32, 32, 3)
 
 
 # 신경망 정의

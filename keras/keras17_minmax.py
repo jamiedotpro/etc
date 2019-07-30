@@ -23,6 +23,7 @@ scaler = MinMaxScaler()
 scaler.fit(x)           # x에 있는 값을 기준으로 0~1 MinMaxScaler 진행
 x = scaler.transform(x) # 실제 0~1로 변경
 print(x)
+print(x.shape)
 
 '''
 print('x.shape: ', x.shape)
