@@ -3,7 +3,7 @@
 from keras.datasets import mnist
 from keras.utils import np_utils
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, BatchNormalization
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 
 import numpy
@@ -18,6 +18,8 @@ import tensorflow as tf
 # 데이터 불러오기
 
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+X_train = X_train[:300]
+Y_train = Y_train[:300]
 # import matplotlib.pyplot as plt
 # digit = X_train[33]
 # plt.imshow(digit, cmap=plt.cm.binary)
@@ -50,14 +52,20 @@ print(Y_test.shape)     # 10은 10개로 데이터가 분류된다는 거
 
 # 컨볼루션 신경망의 설정
 model = Sequential()
-model.add(Conv2D(32, kernel_size=(3,3), input_shape=(28,28,1), activation='relu'))
-model.add(Conv2D(64, (3,3), activation='relu'))
+model.add(Conv2D(64, kernel_size=(3,3), input_shape=(28,28,1), activation='relu'))
+model.add(Conv2D(128, (3,3), activation='relu'))
 model.add(MaxPooling2D(pool_size=2))
-model.add(Dropout(0.25))
+model.add(Dropout(0.1))
+# model.add(Conv2D(128, (3,3), activation='relu'))
+# model.add(BatchNormalization())
+model.add(Conv2D(128, (3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=2))
+model.add(Dropout(0.2))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.5))
+model.add(Dropout(0.1))
 model.add(Dense(10, activation='softmax'))  # 분류 모델을 사용하려면 마지막에 무조건 activation='softmax'로 설정해야함
+
 
 # loss='categorical_crossentropy': 분류 모델에서는 이거로 써야 함
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -74,41 +82,9 @@ early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10)
 
 # 모델의 실행
 history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test),
-                    epochs=5, batch_size=2000, verbose=1,
+                    epochs=100, batch_size=10, verbose=1,
                     callbacks=[early_stopping_callback])
 
 # 테스트 정확도 출력
 # 분류 모델에서는 Accuracy를 쓰는게 좋음
 print('\n Test Accuracy: %.4f' % (model.evaluate(X_test, Y_test)[1]))
-
-print(history.history.keys())
-
-import matplotlib.pyplot as plt
-
-plt.plot(history.history['acc'])
-plt.plot(history.history['val_acc'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-# 차트 데이터 및 데이터설명위치 설정
-# legend는 위에 plt.plot(..) 순서대로 대응됨
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
-
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_acc'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
-
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_acc'])
-plt.plot(history.history['acc'])
-plt.plot(history.history['val_acc'])
-plt.title('model accuracy, accuracy')
-plt.ylabel('loss, acc')
-plt.xlabel('epoch')
-plt.legend(['train loss', 'test loss', 'train acc', 'test acc'])    # loc='upper left' 생략하면 빈 곳에 알아서 표시됨
-plt.show()
