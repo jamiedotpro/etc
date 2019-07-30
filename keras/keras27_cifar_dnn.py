@@ -51,7 +51,6 @@ X_test = X_test.reshape(10000, 32 * 32 * 3)
 
 
 # 신경망 정의
-# 컬럼의 수가 많으면 레이어의 깊이가 깊어져야함.
 model = Sequential()
 # model.add(Dense(256, activation='relu', input_shape=(32 * 32 * 3,)))
 # model.add(Dense(512, activation='relu'))
@@ -72,27 +71,13 @@ model.add(Dense(512, activation='relu'))
 model.add(Dropout(0.2))
 model.add(Dense(128, activation='relu'))
 model.add(Dense(256, activation='relu'))
-model.add(Dense(512, activation='relu'))
-model.add(BatchNormalization())
-model.add(Dense(128, activation='relu'))
 model.add(Dense(256, activation='relu'))
-model.add(Dense(512, activation='relu'))
-model.add(Dense(128, activation='relu'))
-model.add(Dense(256, activation='relu'))
-model.add(Dense(512, activation='relu'))
-model.add(BatchNormalization())
-model.add(Dense(128, activation='relu'))
-model.add(Dense(256, activation='relu'))
-model.add(Dense(512, activation='relu'))
-model.add(Dense(128, activation='relu'))
-model.add(Dense(256, activation='relu'))
-model.add(Dense(512, activation='relu'))
 model.add(BatchNormalization())
 model.add(Dense(256, activation='relu'))
 model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.2))
 model.add(Dense(NB_CLASSES))
 model.add(Activation('softmax'))
+# 0.48
 
 
 model.summary()
@@ -115,7 +100,7 @@ print('test accuracy:', score[1])
 
 
 
-'''
+
 # 히스토리에 있는 모든 데이터 나열
 print(history.history.keys())
 # 단순 정확도에 대한 히스토리 요약
@@ -133,4 +118,3 @@ plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.show()
-'''
