@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.optimizers import SGD, Adam, RMSprop
+from keras.layers import BatchNormalization
 import matplotlib.pyplot as plt
 
 # CIFAR_10은 3채널로 구성된 32*32 이미지 60000장을 갖는다.
@@ -37,26 +38,49 @@ X_test /= 255
 
 # 신경망 정의
 model = Sequential()
-model.add(Conv2D(32, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
+# model.add(Conv2D(64, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
+# model.add(Activation('relu'))
+# model.add(Conv2D(128, (3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Dropout(0.2))
+# model.add(Conv2D(128, (3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(BatchNormalization())
+# model.add(Conv2D(128, (3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Dropout(0.2))
+
+# model.add(Flatten())
+# model.add(Dense(512))
+# model.add(Activation('relu'))
+# model.add(Dense(512, activation='relu'))
+# model.add(Dense(256, activation='relu'))
+# model.add(Dropout(0.5))
+# model.add(Dense(NB_CLASSES))
+# model.add(Activation('softmax'))
+# 0.75
+
+model.add(Conv2D(128, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
 model.add(Activation('relu'))
-model.add(Conv2D(64, (3,3), activation='relu'))
+model.add(Conv2D(256, (3,3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
+model.add(Dropout(0.2))
+model.add(Conv2D(256, (3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(BatchNormalization())
 model.add(Conv2D(128, (3,3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Conv2D(64, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-
+model.add(Dropout(0.2))
 
 model.add(Flatten())
 model.add(Dense(512))
 model.add(Activation('relu'))
 model.add(Dense(512, activation='relu'))
+model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(NB_CLASSES))
 model.add(Activation('softmax'))
+
 
 model.summary()
 
