@@ -62,9 +62,11 @@ model.summary()
 
 # 학습
 model.compile(loss='categorical_crossentropy', optimizer=OPTIM, metrics=['accuracy'])
-
+from keras.callbacks import EarlyStopping
+early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10)
 history = model.fit(X_train, Y_train, batch_size=BATCH_SIZE,
-                    epochs=NB_EPOCH, validation_split=VALIDATION_SPLIT, verbose=VERBOSE)
+                    epochs=NB_EPOCH, validation_split=VALIDATION_SPLIT, verbose=VERBOSE,
+                    callbacks=[early_stopping_callback])
 
 print('testing...')
 score = model.evaluate(X_test, Y_test,)
