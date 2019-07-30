@@ -14,7 +14,7 @@ IMG_COLS = 32
 
 # 상수 정의
 BATCH_SIZE = 128
-NB_EPOCH = 20
+NB_EPOCH = 40
 NB_CLASSES = 10
 VERBOSE = 1
 VALIDATION_SPLIT = 0.2
@@ -46,19 +46,22 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-X_train = X_train.reshape(50000, 32, 32, 3)
-X_test = X_test.reshape(10000, 32, 32, 3)
+X_train = X_train.reshape(50000, 32 * 32 * 3)
+X_test = X_test.reshape(10000, 32 * 32 * 3)
 
 
 # 신경망 정의
 model = Sequential()
-model.add(Dense(512, activation='relu', input_shape=(32 * 32,)))
+model.add(Dense(256, activation='relu', input_shape=(32 * 32 * 3,)))
 model.add(Dense(512, activation='relu'))
 model.add(Dropout(0.2))
+model.add(Dense(256, activation='relu'))
 model.add(Dense(512, activation='relu'))
 model.add(Dense(512, activation='relu'))
 model.add(BatchNormalization())
 model.add(Dense(256, activation='relu'))
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.2))
 model.add(Dense(NB_CLASSES))
 model.add(Activation('softmax'))
 
@@ -81,12 +84,6 @@ print('\ntest score:', score[0])
 print('test accuracy:', score[1])
 
 
-
-
-# 사진 한장을 출력(시각화) 확인 후 주석 처리
-digit = X_train[33]
-plt.imshow(digit, cmap=plt.cm.binary)
-plt.show() 
 
 
 # 히스토리에 있는 모든 데이터 나열

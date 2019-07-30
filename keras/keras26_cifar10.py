@@ -40,7 +40,7 @@ Y_test = np_utils.to_categorical(Y_test, NB_CLASSES)
 # ...Scaler 사용해서 정규화
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 scaler = StandardScaler()   # /255 = 0.78 -> StandardScaler 동일
-#scaler = MinMaxScaler()    # /255 = 0.78 -> MinMaxScaler 0.76
+# scaler = MinMaxScaler()    # /255 = 0.78 -> MinMaxScaler 0.76
 
 # print(X_train)
 # scaler 사용을 위해 reshape
