@@ -38,12 +38,12 @@ X_test /= 255
 
 # 신경망 정의
 model = Sequential()
-# model.add(Conv2D(64, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
+# model.add(Conv2D(128, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
 # model.add(Activation('relu'))
-# model.add(Conv2D(128, (3,3), activation='relu'))
+# model.add(Conv2D(256, (3,3), activation='relu'))
 # model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))
-# model.add(Conv2D(128, (3,3), activation='relu'))
+# model.add(Conv2D(256, (3,3), activation='relu'))
 # model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(BatchNormalization())
 # model.add(Conv2D(128, (3,3), activation='relu'))
@@ -58,29 +58,7 @@ model = Sequential()
 # model.add(Dropout(0.5))
 # model.add(Dense(NB_CLASSES))
 # model.add(Activation('softmax'))
-# 0.75
-
-model.add(Conv2D(128, (3, 3), padding='same', input_shape=(IMG_ROWS, IMG_COLS, IMG_CHANNELS)))
-model.add(Activation('relu'))
-model.add(Conv2D(256, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv2D(256, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(BatchNormalization())
-model.add(Conv2D(128, (3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-
-model.add(Flatten())
-model.add(Dense(512))
-model.add(Activation('relu'))
-model.add(Dense(512, activation='relu'))
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(NB_CLASSES))
-model.add(Activation('softmax'))
-
+# 0.7884
 
 model.summary()
 
