@@ -93,9 +93,9 @@ num_epochs = 100
 
 for epoch_idx in range(num_epochs):
     print('epochs : ' + str(epoch_idx))
-    model.fit(x_train, y_train, epochs=1, batch_size=batch_size, verbose=2,
-                shuffle=False, validation_data=(x_test, y_test),
-                callbacks=[early_stoppng, tb_hist])
+    history = model.fit(x_train, y_train, epochs=1, batch_size=batch_size, verbose=2,
+                        shuffle=False, validation_data=(x_test, y_test),
+                        callbacks=[early_stoppng, tb_hist])
     model.reset_states()
     # 훈련 상태가 변할지의 여부는 위에서 설정
     # 상태유지 LSTM은 fit할 때마다, evaluate 후에 reset_states() 호출해야함
@@ -122,6 +122,7 @@ import matplotlib.pyplot as plt
 
 # print(history.history.keys())
 # dict_keys(['val_loss', 'val_mean_squared_error', 'loss', 'mean_squared_error'])
+
 # plt.plot(history.history['acc'])
 # plt.plot(history.history['val_acc'])
 # plt.title('model accuracy')
