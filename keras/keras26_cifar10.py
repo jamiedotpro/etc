@@ -80,6 +80,11 @@ model.add(Dense(NB_CLASSES))
 model.add(Activation('softmax'))
 # 0.7884
 
+# conv2d -> dense 층이 많이 필요 없음
+# conv2d 6개 32, 32, 60, 128 노드를 늘리는 식으로
+# 레이어 가상 모델링에서 점점 커지는 모습이 있어서 노드를 늘린 편
+
+
 model.summary()
 
 # 학습

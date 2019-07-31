@@ -59,6 +59,12 @@ model.add(Dense(1))
 # RMSE :  36.65721828254061
 # R2 :  -0.7498665031542004
 
+# 변수가 총 5개
+# 4개는 연관이 있고..
+# 노드를 많이 안 줌. 젤 많은게 4개
+# 테스트 후 노드 2-3개 정도 늘리는 식으로 (레이어 늘리지 않음)
+
+
 model.summary()
 
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
