@@ -45,18 +45,34 @@ model = Sequential()
     # 일반 LSTM보다 좀더 잘 맞는다고 함
     # batch_input_shape=(배치작업을 몇개씩 할 것인지, , )
     # stateful: 훈련했던 상태유지한다(true), 안한다(false, default)
-model.add(LSTM(128, batch_input_shape=(batch_size,4,1), stateful=True))
-# model.add(LSTM(128, return_sequences=True))
-# model.add(Dropout(0.5))
-# model.add(LSTM(128))
-model.add(Dense(512, activation='relu'))
-model.add(Dense(512))
-# model.add(BatchNormalization())
-model.add(Dense(512))
-model.add(Dense(512))
-# model.add(Dropout(0.5))
-model.add(Dense(256))
-model.add(Dense(256))
+# model.add(LSTM(128, batch_input_shape=(batch_size,4,1), stateful=True))
+# # model.add(LSTM(128, return_sequences=True))
+# # model.add(Dropout(0.5))
+# # model.add(LSTM(128))
+# model.add(Dense(128, activation='relu'))
+# model.add(Dense(128))
+# # model.add(BatchNormalization())
+# model.add(Dense(128))
+# model.add(Dense(128))
+# # model.add(Dropout(0.5))
+# model.add(Dense(128))
+# model.add(Dense(1))
+# mse :  3.4173729514562488
+# [[111.82709 ]
+#  [112.20453 ]
+#  [113.03317 ]
+#  [113.87483 ]
+#  [114.694916]]
+# RMSE :  34.93300980756885
+# R2 :  -0.5891244808017821
+
+model.add(LSTM(64, batch_input_shape=(batch_size,4,1), stateful=True))
+model.add(Dense(128, activation='relu'))
+model.add(Dense(128))
+model.add(Dense(128))
+model.add(Dense(128))
+model.add(Dense(128))
+model.add(Dense(128))
 model.add(Dense(1))
 
 model.summary()
@@ -74,10 +90,10 @@ num_epochs = 100
 # 상태유지 LSTM은 fit 을 여러번함.
 # 한번 fit이 끝나면
     # shuffle=False : 이전의 훈련했던 상태를 섞지 않겠다
-history = ''
+
 for epoch_idx in range(num_epochs):
     print('epochs : ' + str(epoch_idx))
-    history = model.fit(x_train, y_train, epochs=1, batch_size=batch_size, verbose=2,
+    model.fit(x_train, y_train, epochs=1, batch_size=batch_size, verbose=2,
                 shuffle=False, validation_data=(x_test, y_test),
                 callbacks=[early_stoppng, tb_hist])
     model.reset_states()
@@ -104,8 +120,8 @@ print('R2 : ', r2_y_predict)
 
 import matplotlib.pyplot as plt
 
-print(history.history.keys())
-dict_keys(['val_loss', 'val_mean_squared_error', 'loss', 'mean_squared_error'])
+# print(history.history.keys())
+# dict_keys(['val_loss', 'val_mean_squared_error', 'loss', 'mean_squared_error'])
 # plt.plot(history.history['acc'])
 # plt.plot(history.history['val_acc'])
 # plt.title('model accuracy')
