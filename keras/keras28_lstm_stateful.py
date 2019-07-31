@@ -112,16 +112,17 @@ import matplotlib.pyplot as plt
 
 print(history.history.keys())
 # dict_keys(['val_loss', 'val_mean_squared_error', 'loss', 'mean_squared_error'])
-print(loss_array)
-print(mse_array)
 
-# plt.plot(history.history['acc'])
-# plt.plot(history.history['val_acc'])
-# plt.title('model accuracy')
-# plt.ylabel('accuracy')
-# plt.xlabel('epoch')
-# plt.legend(['train', 'test'], loc='upper left')
-# plt.show()
+loss_array = loss_array.flatten()
+mse_array = mse_array.flatten()
+
+plt.plot(loss_array)
+plt.plot(mse_array)
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['loss', 'mse'], loc='upper left')
+plt.show()
 
 '''
 x_train     y_train
