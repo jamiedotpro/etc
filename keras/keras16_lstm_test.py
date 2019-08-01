@@ -11,8 +11,8 @@ size = 5
 # LSTM에 넣기 좋은 연속 데이터 만들기
 def split_5(seq, size):
     aaa = []
-    for i in range(len(a) - size + 1):
-        subset = a[i:(i+size)]
+    for i in range(len(seq) - size + 1):
+        subset = seq[i:(i+size)]
         aaa.append([item for item in subset])
     print(type(aaa))
     return np.array(aaa)
