@@ -1,10 +1,13 @@
-# 2019-08-01 오늘 종가 맞추기
+# 2019-08-01 오늘 종가 예측하기
 import os
 import pandas as pd
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, BatchNormalization, Dropout
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
+
+# 1. 데이터 읽어오기
 
 use_colab = False
 if use_colab:
@@ -13,7 +16,7 @@ if use_colab:
   drive.mount('/content/drive')
   kospi = pd.read_csv('/content/drive/My Drive/Colab Notebooks/kospi200test.csv', encoding='CP949')
 else:
-  # 1. 데이터 읽어오기
+  # 컴퓨터 안의 데이터 읽어오기
   dir_path = os.path.dirname(os.path.abspath(__file__))
   kospi200_file = os.path.join(dir_path, 'kospi200test.csv')
   kospi = pd.read_csv(kospi200_file, encoding='CP949')
@@ -27,41 +30,13 @@ print(kospi.head())
 # 2019/07/26, 2063.35,    2068.16,    2054.64,    2066.26,    589074, 1184.8,
 # 2019/07/25, 2085.67,    2088.81,    2061.08,    2074.48,    598634, 1181.5,
 
-# 2017/03/13,   2102.37,    2122.88,    2100.91,    2117.59,    382129, 1144.4,
-# 2017/03/10,   2088.67,    2102.05,    2082.31,    2097.35,    500860, 1157.4,
-# 2017/03/09,   2098.29,    2100.08,    2090.73,    2091.06,    408229, 1158.1,
-# 2017/03/08,   2092.27,    2101.56,    2088.19,    2095.41,    381441, 1145.5,
-# 2017/03/07,   2080.77,    2096.79,    2079.16,    2094.05,    277830, 1146.1,
-# 2017/03/06,   2073.2,     2083.8,     2067.68,    2081.36,    431445, 1158,
-# 2017/03/03,   2090.92,    2091.59,    2072.09,    2078.75,    425935, 1156.1,
-# 2017/03/02,   2105.19,    2112.58,    2096.31,    2102.65,    434713, 1141.6,
-# 2017/02/28,   2087.26,    2094.41,    2084.36,    2091.64,    399821, 1130.7,
-# 2017/02/27,   2095.47,    2097.24,    2084.08,    2085.52,    343702, 1133.7,
-# 2017/02/24,   2106.43,    2107.83,    2090.05,    2094.12,    385394, 1131.5,
 # 2017/02/23,   2106.15,    2108.99,    2103.11,    2107.63,    430850, 1137.3,
 # 2017/02/22,   2106.42,    2108.98,    2101.56,    2106.61,    312219, 1142.6,
 # 2017/02/21,   2085.97,    2108.48,    2085,       2102.93,    292539, 1146.1,
 # 2017/02/20,   2084.16,    2085.59,    2077.13,    2084.39,    297203, 1147.5,
 # 2017/02/17,   2072.57,    2081.18,    2072.57,    2080.58,    301517, 1146.3,
 
-# 2117.59
-# 2097.35
-# 2091.06
-# 2095.41
-# 2094.05
-# 2081.36
-# 2078.75
-# 2102.65
-# 2091.64
-# 2085.52
-# 2094.12
-# 2107.63
-# 2106.61
-# 2102.93
-# 2084.39
-# 2080.58
 
-# date = np.array(kospi['일자'])
 last_price = np.array(kospi['종가'])
 # print('type:', type(last_price))
 # print(last_price)
@@ -100,30 +75,36 @@ print(x_train.shape)    # (595, 4, 1)
 # 테스트할 데이터는 20일치를 가져옴
 test_days = 20
 last_price_last_days = last_price[last_price.shape[0]-test_days:]
+
+# 내일 데이터 예측을 위해 테스트 데이터 하나 더 추가
+test_days += 1
+last_price_last_days = np.append(last_price_last_days, last_price[len(last_price)-1])
+
 dataset_test = split_5(last_price_last_days, size)
 x_test = dataset_test[:, 0:4]
 y_test = dataset_test[:, 4:]
 
-print(x_test)
-print(y_test)
-# x_test = np.append(x_test, [2106.61, 2102.93, 2084.39, 2080.58])
-# y_test = np.appnd(y_test, [2080.58])
-print(x_test)
-print(y_test)
-
 x_test = scaler.transform(x_test)
 x_test = np.reshape(x_test, (test_days-size+1, 4, 1))
+
 
 # 2. 모델 구성
 model = Sequential()
 
-# model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
-# model.add(LSTM(32))
-# model.add(Dense(8, activation='relu'))
-# model.add(Dense(4, activation='relu'))
-# model.add(Dense(1, activation='relu'))
-# loss:  140.95263671875
-# acc:  140.95263671875
+model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
+model.add(LSTM(32))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(4, activation='relu'))
+model.add(Dense(1, activation='relu'))
+# loss:  135.01260375976562
+# acc:  135.01260375976562
+# RMSE :  11.619521590304876
+# R2 :  -0.148699911620628
+#  [2104.6228]
+#  [2105.9958]
+#  [2101.235 ]
+#  [2084.7603]
+#  [2077.1606]]
 
 # model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
 # model.add(LSTM(32, return_sequences=True))
@@ -136,15 +117,26 @@ model = Sequential()
 # RMSE :  12.335851243863786
 # R2 :  -0.3404910789915949
 
-model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
-model.add(LSTM(32, return_sequences=True))
-model.add(LSTM(4))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(1, activation='relu'))
+# model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
+# model.add(LSTM(32, return_sequences=True))
+# model.add(LSTM(4))
+# model.add(Dense(8, activation='relu'))
+# model.add(Dense(8, activation='relu'))
+# model.add(Dense(1, activation='relu'))
+# loss:  163.28549194335938
+# acc:  163.28549194335938
+# RMSE :  12.778350384998525
+# R2 :  -0.4383853979843466
 
+# model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
+# model.add(LSTM(32, return_sequences=True))
+# model.add(LSTM(4))
+# model.add(Dense(16, activation='relu'))
+# model.add(Dense(8, activation='relu'))
+# model.add(Dense(1, activation='relu'))
 
 model.summary()
+
 
 # 3. 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
@@ -152,6 +144,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
 model.fit(x_train, y_train, epochs=1000, batch_size=1, verbose=1, callbacks=[early_stopping])
+
 
 # 4. 평가
 loss, acc = model.evaluate(x_test, y_test)
