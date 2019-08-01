@@ -100,11 +100,12 @@ model.add(Dense(1, activation='relu'))
 # acc:  135.01260375976562
 # RMSE :  11.619521590304876
 # R2 :  -0.148699911620628
+#  [2089.197 ]
 #  [2104.6228]
 #  [2105.9958]
 #  [2101.235 ]
 #  [2084.7603]
-#  [2077.1606]]
+#  [2077.1606]] # 오늘 종가 예측
 
 # model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
 # model.add(LSTM(32, return_sequences=True))
