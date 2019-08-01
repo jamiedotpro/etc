@@ -8,23 +8,10 @@ import numpy
 import os
 import tensorflow as tf
 
-# # seed 값 설정
-# seed = 0
-# numpy.random.seed(seed)
-# tf.set_random_seed(seed)
-
-# 데이터 불러오기
-
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
-# import matplotlib.pyplot as plt
-# digit = X_train[33]
-# plt.imshow(digit, cmap=plt.cm.binary)
-# plt.show()
 
-# X_train = X_train.reshape(X_train.shape[0], 28, 28, 1).astype('float32') / 255
-# X_test = X_test.reshape(X_test.shape[0], 28, 28, 1).astype('float32') / 255
-X_train = X_train.reshape(X_train.shape[0], 28 * 28).astype('float32') / 255
-X_test = X_test.reshape(X_test.shape[0], 28 * 28).astype('float32') / 255
+X_train = X_train.reshape(X_train.shape[0], 28, 28, 1).astype('float32') / 255
+X_test = X_test.reshape(X_test.shape[0], 28, 28, 1).astype('float32') / 255
 print(Y_train.shape)
 print(Y_test.shape)
 Y_train = np_utils.to_categorical(Y_train)
@@ -34,18 +21,22 @@ print(Y_test.shape)
 
 
 # 하이퍼 파라미터 최적화
+# CNN 모델로 만들기
+# 계산된 최적의 값으로 CNN 모델링 하기
 from keras.models import Sequential, Model
 from keras.layers import Dense, LSTM, Dropout, Input
 import numpy as np
 
 def build_network(keep_prob=0.5, optimizer='adam'):
-    inputs = Input(shape=(28*28, ), name='input')
-    x = Dense(512, activation='relu', name='hidden1')(inputs)
+    inputs = Input(shape=(28,28,1), name='input')
+    x = Conv2D(32, kernel_size=(3,3), activation='relu', name='hidden1')(inputs)
+    x = Conv2D(64, kernel_size=(3,3), activation='relu', name='hidden2')(x)
+    x = MaxPooling2D(pool_size=2)(x)
     x = Dropout(keep_prob)(x)
-    x = Dense(256, activation='relu', name='hidden2')(x)
-    x = Dropout(keep_prob)(x)
+    x = Flatten()(x)
     x = Dense(128, activation='relu', name='hidden3')(x)
     x = Dropout(keep_prob)(x)
+
     prediction = Dense(10, activation='softmax', name='output')(x)
     model = Model(inputs=inputs, outputs=prediction)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy',
@@ -73,16 +64,3 @@ search.fit(X_train, Y_train)
 
 print(search.best_params_)
 
-
-
-# [Parallel(n_jobs=1)]: Done  30 out of  30 | elapsed: 11.6min finished
-# Epoch 1/1
-# 60000/60000 [==============================] - 40s 674us/step - loss: 0.2237 - acc: 0.9318
-# {'optimizer': 'adadelta', 'keep_prob': 0.1, 'batch_size': 30}
-
-
-# colab
-# [Parallel(n_jobs=1)]: Done  30 out of  30 | elapsed:  9.4min finished
-# Epoch 1/1
-# 60000/60000 [==============================] - 25s 418us/step - loss: 0.2135 - acc: 0.9353
-# {'optimizer': 'adadelta', 'keep_prob': 0.1, 'batch_size': 20}
