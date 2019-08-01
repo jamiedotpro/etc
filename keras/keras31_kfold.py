@@ -37,7 +37,7 @@ from sklearn.model_selection import KFold, cross_val_score
 model = KerasRegressor(build_fn=build_model, epochs=10,
                         batch_size=1, verbose=1)
 kfold = KFold(n_splits=5, shuffle=True, random_state=seed)
-results = cross_val_score(model, train_data, train_targets, cv=kfold)
+results = cross_val_score(model, train_data, train_targets, cv=kfold)   # cv == cross Validation 교차검증
 
 import numpy as np
 print(results)
