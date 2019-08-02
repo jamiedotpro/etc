@@ -40,9 +40,20 @@ high_price = np.array(kospi['고가'])
 low_price = np.array(kospi['저가'])
 last_price = np.array(kospi['종가'])
 
+price_three = np.array([kospi['고가'], kospi['저가'], kospi['종가']])
+
+
 # 원활한 훈련을 위해 훈련 데이터 스케일 조정
 # scaler = StandardScaler()
 scaler = MinMaxScaler()
+
+scaler.fit(price_three)
+price_three = scaler.transform(price_three)
+print(price_three)
+import sys
+sys.exit()
+
+
 
 last_ = np.reshape(last_price, (-1, 1))
 high_price = np.reshape(high_price, (-1, 1))

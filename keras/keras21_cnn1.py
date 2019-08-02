@@ -11,7 +11,7 @@ model = Sequential()
 # input_shape: 입력되는 이미지는 28 by 28. 1은 흑백, 3이 컬러
 # model.add(Conv2D(filter_size, kernel_size, input_shape=(28,28,1)))
 # padding : 경계 처리 방법을 정의합니다.
-    # ‘valid’ : 유효한 영역만 출력이 됩니다. 따라서 출력 이미지 사이즈는 입력 사이즈보다 작습니다. default.
+    # ‘valid’ : 유효한 영역만 출력이 됩니다. 따라서 출력 이미지 사이즈는 입력 사이즈보다 작습니다. default. (10,10,1)->(9,9,개수)
     # ‘same’ : 출력 이미지 사이즈가 입력 이미지 사이즈와 동일합니다.    # shape가 똑같이 나온다.
         # 이미지 바깥에 0을 채워서 이미지 크기를 유지한다.
 model.add(Conv2D(7, (2,2), padding='same', input_shape=(10,10,1)))
