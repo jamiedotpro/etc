@@ -31,10 +31,11 @@ def build_network(keep_prob=0.5, optimizer='adam'):
     inputs = Input(shape=(28,28,1), name='input')
     x = Conv2D(32, kernel_size=(3,3), activation='relu', name='hidden1')(inputs)
     x = Conv2D(64, kernel_size=(3,3), activation='relu', name='hidden2')(x)
+    x = Conv2D(64, kernel_size=(3,3), activation='relu', name='hidden3')(x)
     x = MaxPooling2D(pool_size=2)(x)
     x = Dropout(keep_prob)(x)
     x = Flatten()(x)
-    x = Dense(128, activation='relu', name='hidden3')(x)
+    x = Dense(64, activation='relu', name='hidden4')(x)
     x = Dropout(keep_prob)(x)
 
     prediction = Dense(10, activation='softmax', name='output')(x)
@@ -44,7 +45,7 @@ def build_network(keep_prob=0.5, optimizer='adam'):
     return model
 
 def create_hyperparameters():
-    batches = [10,20,30,40,50]
+    batches = [5,10,20]
     optimizers = ['rmsprop', 'adam', 'adadelta']
     dropout = np.linspace(0.1, 0.5, 5)
     return{'batch_size':batches, 'optimizer':optimizers, 'keep_prob':dropout}
@@ -64,3 +65,12 @@ search.fit(X_train, Y_train)
 
 print(search.best_params_)
 
+# [Parallel(n_jobs=1)]: Done  30 out of  30 | elapsed:  8.1min finished
+# Epoch 1/1
+# 60000/60000 [==============================] - 24s 392us/step - loss: 0.1125 - acc: 0.9651
+# {'optimizer': 'adadelta', 'keep_prob': 0.1, 'batch_size': 20}
+
+# [Parallel(n_jobs=1)]: Done  30 out of  30 | elapsed: 20.7min finished
+# Epoch 1/1
+# 60000/60000 [==============================] - 48s 800us/step - loss: 0.1253 - acc: 0.9625
+# {'optimizer': 'adadelta', 'keep_prob': 0.2, 'batch_size': 10}
