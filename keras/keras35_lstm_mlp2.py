@@ -10,7 +10,7 @@ from keras.layers import Dense, LSTM
 x_train = np.array(range(1,97))
 y_train = np.array(range(5,101))
 
-print(x_train.shape)    # (96,)
+print(x_train.shape)
 
 size = 4
 # LSTM에 넣기 좋은 연속 데이터 만들기
@@ -25,8 +25,8 @@ def split_n(seq, size):
 x_train = split_n(x_train, size)
 y_train = split_n(y_train, size)
 
-print(x_train.shape)    # (93, 4)
-print(y_train.shape)    # (93, 4)
+print(x_train.shape)
+print(y_train.shape)
 
 # LSTM은 몇 개씩 잘라서 작업할 건가를 지정해야하기에 reshape
 x_train = np.reshape(x_train, (x_train.shape[0], 2, 2))
@@ -39,7 +39,7 @@ print(x_train.shape)
 x_test = np.array(range(47,54))
 y_test = np.array(range(51,58))
 
-print(x_train.shape)    # (96,)
+print(x_train.shape)
 
 x_test = split_n(x_test, size)
 y_test = split_n(y_test, size)
@@ -55,15 +55,15 @@ model.add(LSTM(128, input_shape=(2, 2)))
 model.add(Dense(256, activation='relu'))
 model.add(Dense(128, activation='relu'))
 model.add(Dense(4))
-# loss:  0.04392968490719795
-# acc:  0.04392968490719795
-# RMSE :  0.2095940942558955
-# R2 :  0.9648562525224407
+# loss:  0.04012402892112732
+# acc:  0.04012402892112732
+# RMSE :  0.20030983196304952
+# R2 :  0.9679007769751479
 # y_predict(x_test) :
-#  [[50.730972 51.654816 52.685883 53.599304]
-#  [51.85354  52.778778 53.808388 54.72121 ]
-#  [52.95353  53.88001  54.90915  55.821476]
-#  [54.039413 54.96741  55.997498 56.91063 ]]
+#  [[51.233498 52.20953  53.20337  54.19069 ]
+#  [52.230717 53.205746 54.20212  55.19098 ]
+#  [53.22238  54.196354 55.19521  56.185562]
+#  [54.20279  55.176132 56.177948 57.16909 ]]
 
 model.summary()
 
@@ -94,6 +94,3 @@ r2_y_predict = r2_score(y_test, y_predict)
 print('R2 : ', r2_y_predict)
 
 print('y_predict(x_test) : \n', y_predict)
-
-# import sys
-# sys.exit()
