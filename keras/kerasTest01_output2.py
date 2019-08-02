@@ -94,29 +94,25 @@ x_test = np.reshape(x_test, (test_days-size+1, in_size, 1))
 
 
 # 2. 모델 구성
-# model = Sequential()
-# model.add(LSTM(32, input_shape=(in_size, 1)))
-# model.add(Dense(32, activation='relu'))
-# model.add(Dense(8, activation='relu'))
-# model.add(Dense(out_size, activation='relu'))
-# RMSE :  24.465352752108213
-# R2 :  -3.898880665263428
-# y_predict(x_test) :
-#  [[2117.159  2111.2004]
-#  [2109.619  2103.7043]
-#  [2114.4094 2108.4617]
-#  [2127.4758 2121.4573]
-#  [2129.7825 2123.7585]
-#  [2125.247  2119.2473]
-#  [2107.573  2101.6594]
-#  [2100.4734 2094.5916]]
-
 model = Sequential()
-model.add(LSTM(32, input_shape=(in_size, 1)))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(4, activation='relu'))
-model.add(Dense(out_size, activation='relu'))
 
+model.add(LSTM(32, input_shape=(in_size, 1)))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(out_size, activation='relu'))
+# loss:  150.77947998046875
+# acc:  150.77947998046875
+# RMSE :  12.279220450862853
+# R2 :  -0.2085359191934466
+# y_predict(x_test) : 
+#  [[2088.96   2089.4978]
+#  [2082.2493 2082.7832]
+#  [2087.641  2088.1775]
+#  [2100.3103 2100.8518]
+#  [2101.6594 2102.2007]
+#  [2097.285  2097.8213]
+#  [2080.1426 2080.6682]
+#  [2075.0754 2075.6   ]]
 
 model.summary()
 
@@ -126,7 +122,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
 from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
-model.fit(x_train, y_train, epochs=1000, batch_size=1, verbose=1, callbacks=[early_stopping])
+model.fit(x_train, y_train, epochs=1000, batch_size=5, verbose=1, callbacks=[early_stopping])
 
 
 # 4. 평가
@@ -147,6 +143,3 @@ r2_y_predict = r2_score(y_test, y_predict)
 print('R2 : ', r2_y_predict)
 
 print('y_predict(x_test) : \n', y_predict)
-
-# import sys
-# sys.exit()
