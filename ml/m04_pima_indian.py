@@ -17,28 +17,31 @@ dataset = numpy.loadtxt(pima_indians_file, delimiter=',')
 x = dataset[:, 0:8]
 y = dataset[:, 8]
 
-print(dataset[0])
-import sys
-sys.exit()
-
-
 # 모델의 설정
 model = Sequential()
-model.add(Dense(12, input_dim=8, activation='relu'))
-model.add(Dense(8, activation='relu'))
+# model.add(Dense(64, input_dim=8, activation='relu'))
+# model.add(Dense(64, activation='relu'))
+# model.add(Dense(64, activation='relu'))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(1, activation='sigmoid'))
+# Accuracy: 0.9349
+
+model.add(Dense(64, input_dim=8, activation='relu'))
+model.add(Dense(64, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
+# Accuracy: 0.9753
 
 # 모델 컴파일
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # 모델 실행
-model.fit(x, y, epochs=200, batch_size=10)
+from keras.callbacks import EarlyStopping
+early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
+model.fit(x, y, epochs=1000, batch_size=5, callbacks=[early_stopping])
 
 # 결과 출력
 print('\n Accuracy: %.4f' % (model.evaluate(x, y)[1]))
 
-# y_predict = numpy.round(model.predict(x))
+# sigmoid 결과를 분류로 출력함
+# y_predict = model.predict_classes(x)
 # print(y_predict)
-
-# import sys
-# sys.exit()

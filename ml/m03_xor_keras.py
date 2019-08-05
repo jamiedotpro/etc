@@ -28,7 +28,8 @@ x_test = np.array([[0,0], [1,0], [0,1], [1,1]])
 y_test = np.array([0,1,1,0])
 loss, acc = model.evaluate(x_test, y_test)
 
-y_predict = np.round(model.predict(x_test))
+# sigmoid 결과를 분류로 출력함
+y_predict = model.predict_classes(x_test)
 print('loss: ', loss)
 print('acc: ', acc)
 print(y_predict)
