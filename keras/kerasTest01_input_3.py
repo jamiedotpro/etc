@@ -21,7 +21,7 @@ else:
   kospi200_file = os.path.join(dir_path, 'kospi200test.csv')
   kospi = pd.read_csv(kospi200_file, encoding='CP949')
 
-print(kospi.head())
+# print(kospi.head())
 
 # 일자,         시가,       고가,       저가,       종가,       거래량, 환율(원/달러),
 # 2019/07/31, 2036.46,    2041.16,    2010.95,    2024.55,    589386, 1183.1,
@@ -40,37 +40,24 @@ high_price = np.array(kospi['고가'])
 low_price = np.array(kospi['저가'])
 last_price = np.array(kospi['종가'])
 
-price_three = np.array([kospi['고가'], kospi['저가'], kospi['종가']])
+high_price = np.reshape(high_price, (-1, 1))
+low_price = np.reshape(low_price, (-1, 1))
+last_price = np.reshape(last_price, (-1, 1))
 
 
 # 원활한 훈련을 위해 훈련 데이터 스케일 조정
 # scaler = StandardScaler()
 scaler = MinMaxScaler()
 
-scaler.fit(price_three)
-price_three = scaler.transform(price_three)
-print(price_three)
-import sys
-sys.exit()
+scaler.fit(last_price)
+# high_price = scaler.transform(high_price)
+# low_price = scaler.transform(low_price)
+# last_price = scaler.transform(last_price)
 
-
-
-last_ = np.reshape(last_price, (-1, 1))
-high_price = np.reshape(high_price, (-1, 1))
-low_price = np.reshape(low_price, (-1, 1))
-last_price = np.reshape(last_price, (-1, 1))
-
-scaler.fit(last_)
-high_price = scaler.transform(high_price)
-low_price = scaler.transform(low_price)
-print(high_price[0],low_price[0],last_price[0])
-train_data = np.concatenate([high_price, low_price], axis=1)
-train_data = np.concatenate([train_data, last_price], axis=1)
-
-# print(train_data)
+train_data = np.concatenate([high_price, low_price, last_price], axis=1)
 
 size = 6
-def split_5(seq, size):
+def split_n(seq, size):
     aaa = []
     for i in range(len(seq) - size + 1):
         subset = seq[i:(i+size)]
@@ -78,55 +65,62 @@ def split_5(seq, size):
     print(type(aaa))
     return np.array(aaa)
 
-dataset = split_5(train_data, size)
+dataset = split_n(train_data, size)
 print('===================================')
-# print(dataset)
-dataset = np.reshape(dataset, (dataset.shape[0], dataset.shape[1]*dataset.shape[2], 1))
-print(dataset.shape)
-x_train = dataset[:, 0:dataset.shape[1]-1]
+# print(dataset[:5])
+
+
+#dataset = np.reshape(dataset, (dataset.shape[0], dataset.shape[1]*dataset.shape[2], 1))
+#print(dataset.shape)
+x_train = dataset[:, :dataset.shape[1]-1]
 y_train = dataset[:, dataset.shape[1]-1:]
+# print(y_train[:3])
+
+# 종가 데이터만 가져오기
+y_train = y_train[:, :, -1]
+# print(y_train[:3])
+
 
 print(x_train.shape)    # (594, 5, 3)
-print(y_train.shape)    # (594, 1, 1)
-y_train = y_train.reshape((y_train.shape[0],))
+print(y_train.shape)    # (594, 1, 3)
+#y_train = y_train.reshape((y_train.shape[0],))
+
 
 
 # LSTM은 몇개씩 잘라서 작업할 것인가를 정해야함
 # x_train = np.reshape(x_train, (last_price.shape[0]-size+1, size-1, 1))
 
-# 테스트할 데이터는 20일치를 가져옴
-test_days = 11
-last_price_last_days = dataset[dataset.shape[0]-test_days:]
-# print("last_price_last_days",last_price_last_days)
+# 테스트할 데이터는 2개 결과를 볼 수 있게 작업
+test_days = size * 2 - 1
+last_price_last_days = train_data[-test_days:]
+
 # 내일 데이터 예측을 위해 테스트 데이터 하나 더 추가
 test_days += 1
-
-print(dataset[-1])
-
-
+# last_price_last_days = np.append(last_price_last_days, dataset[-1].reshape((1,dataset[-1].shape[0],dataset[-1].shape[1])),axis=0)
+last_price_last_days = np.append(last_price_last_days, train_data[-1:], axis=0)
 
 
-
-print(dataset[-1])
-last_price_last_days = np.append(last_price_last_days, dataset[-1].reshape((1,dataset[-1].shape[0],dataset[-1].shape[1])),axis=0)
-
+dataset_test = split_n(last_price_last_days, size)
+#dataset_test = split_n(last_price_last_days.reshape((last_price_last_days.shape[1],)), size)
 
 
-print("last_price_last_days",last_price_last_days)
-print("last_price_last_days",last_price_last_days.shape)
-
-dataset_test = split_5(last_price_last_days.reshape((last_price_last_days.shape[1],)), size)
-
-
-print(dataset_test.shape)
-x_test = dataset_test[:, 0:dataset_test.shape[1]-1]
-print(x_test.shape)
+x_test = dataset_test[:, :dataset_test.shape[1]-1]
 y_test = dataset_test[:, dataset_test.shape[1]-1:]
 
+#x_test = scaler.transform(x_test)
+print(x_test[-3:])
+print('x_test.shape: ', x_test.shape)
+print(y_test[-3:])
+print('y_test.shape: ', y_test.shape)
 # x_test = scaler.transform(x_test)
 # x_test = np.reshape(x_test, (-1, dataset.shape[1]-1, 1))
 
-'''
+# print('0----------------')
+# print(last_price_last_days)
+
+import sys
+sys.exit()
+
 # 2. 모델 구성
 model = Sequential()
 
@@ -205,4 +199,3 @@ r2_y_predict = r2_score(y_test, y_predict)
 print('R2 : ', r2_y_predict)
 
 print('y_predict(x_test) : \n', y_predict)
-'''

@@ -1,47 +1,29 @@
-from keras.models import Sequential
-from keras.layers import Dense
 import os
-import numpy
-import tensorflow as tf
+import numpy as np
+from sklearn.svm import LinearSVC, SVC
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.metrics import accuracy_score
 
-# seed 값 생성
-seed = 0
-numpy.random.seed(seed)
-tf.set_random_seed(seed)
-
-# 데이터 로드
+# 1. 데이터
 dir_path = os.getcwd()
 pima_indians_file = os.path.join(dir_path, 'etc/data/pima-indians-diabetes.csv')
-dataset = numpy.loadtxt(pima_indians_file, delimiter=',')
-# dataset = numpy.loadtxt('./data/pima-indians-diabetes.csv', delimiter=',')
-x = dataset[:, 0:8]
-y = dataset[:, 8]
+dataset = np.loadtxt(pima_indians_file, delimiter=',')
+x_data = dataset[:, 0:8]
+y_data = dataset[:, 8]
 
-# 모델의 설정
-model = Sequential()
-# model.add(Dense(64, input_dim=8, activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(32, activation='relu'))
-# model.add(Dense(1, activation='sigmoid'))
-# Accuracy: 0.9349
+# 2. 모델
+# model = LinearSVC() # acc =  0.6809895833333334
+# model = SVC() # acc =  1.0
+# model = KNeighborsClassifier(n_neighbors=1) # acc =  1.0
+model = KNeighborsRegressor(n_neighbors=1)  # acc =  1.0
 
-model.add(Dense(64, input_dim=8, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
-# Accuracy: 0.9753
+# 3. 실행
+model.fit(x_data, y_data)
 
-# 모델 컴파일
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+# 4. 평가 예측
+x_test = x_data
+y_test = y_data
+y_predict = model.predict(x_test)
 
-# 모델 실행
-from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
-model.fit(x, y, epochs=1000, batch_size=5, callbacks=[early_stopping])
-
-# 결과 출력
-print('\n Accuracy: %.4f' % (model.evaluate(x, y)[1]))
-
-# sigmoid 결과를 분류로 출력함
-# y_predict = model.predict_classes(x)
-# print(y_predict)
+print(x_test, '의 예측결과: \n', y_predict)
+print('acc = ', accuracy_score(y_test, y_predict))
