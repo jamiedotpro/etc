@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 # 1. 데이터
 x_data = np.array([[0,0], [1,0], [0,1], [1,1]])
-y_data = np.array([0,0,0,1])  # 위 데이터 and한 결과
+y_data = np.array([0,1,1,0])  # 위 데이터 and한 결과
 
 
 # 2. 모델
@@ -25,7 +25,7 @@ model.fit(x_data, y_data, epochs=2000, batch_size=1, verbose=1)
 
 # 4. 평가 예측
 x_test = np.array([[0,0], [1,0], [0,1], [1,1]])
-y_test = np.array([0,0,0,1])
+y_test = np.array([0,1,1,0])
 loss, acc = model.evaluate(x_test, y_test)
 
 y_predict = np.round(model.predict(x_test))
