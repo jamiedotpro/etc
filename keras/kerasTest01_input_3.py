@@ -67,28 +67,17 @@ def split_n(seq, size):
 
 dataset = split_n(train_data, size)
 print('===================================')
-# print(dataset[:5])
 
 
-#dataset = np.reshape(dataset, (dataset.shape[0], dataset.shape[1]*dataset.shape[2], 1))
-#print(dataset.shape)
 x_train = dataset[:, :dataset.shape[1]-1]
 y_train = dataset[:, dataset.shape[1]-1:]
-# print(y_train[:3])
+
+x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1]*x_train.shape[2], 1))
+
 
 # 종가 데이터만 가져오기
 y_train = y_train[:, :, -1]
-# print(y_train[:3])
 
-
-print(x_train.shape)    # (594, 5, 3)
-print(y_train.shape)    # (594, 1, 3)
-#y_train = y_train.reshape((y_train.shape[0],))
-
-
-
-# LSTM은 몇개씩 잘라서 작업할 것인가를 정해야함
-# x_train = np.reshape(x_train, (last_price.shape[0]-size+1, size-1, 1))
 
 # 테스트할 데이터는 2개 결과를 볼 수 있게 작업
 test_days = size * 2 - 1
@@ -96,79 +85,36 @@ last_price_last_days = train_data[-test_days:]
 
 # 내일 데이터 예측을 위해 테스트 데이터 하나 더 추가
 test_days += 1
-# last_price_last_days = np.append(last_price_last_days, dataset[-1].reshape((1,dataset[-1].shape[0],dataset[-1].shape[1])),axis=0)
 last_price_last_days = np.append(last_price_last_days, train_data[-1:], axis=0)
 
-
 dataset_test = split_n(last_price_last_days, size)
-#dataset_test = split_n(last_price_last_days.reshape((last_price_last_days.shape[1],)), size)
-
 
 x_test = dataset_test[:, :dataset_test.shape[1]-1]
 y_test = dataset_test[:, dataset_test.shape[1]-1:]
 
-#x_test = scaler.transform(x_test)
-print(x_test[-3:])
-print('x_test.shape: ', x_test.shape)
-print(y_test[-3:])
-print('y_test.shape: ', y_test.shape)
+
 # x_test = scaler.transform(x_test)
-# x_test = np.reshape(x_test, (-1, dataset.shape[1]-1, 1))
+x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1]*x_test.shape[2], 1))
 
-# print('0----------------')
-# print(last_price_last_days)
 
-import sys
-sys.exit()
+# 종가 데이터만 가져오기
+y_test = y_test[:, :, -1]
+
+
+# import sys
+# sys.exit()
+
 
 # 2. 모델 구성
 model = Sequential()
 
 model.add(LSTM(128, input_shape=(x_train.shape[1], 1), return_sequences=True))
-model.add(LSTM(32))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(4, activation='relu'))
+model.add(LSTM(8))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(50, activation='relu'))
 
 model.add(Dense(1, activation='relu'))
-# loss:  135.01260375976562
-# acc:  135.01260375976562
-# RMSE :  11.619521590304876
-# R2 :  -0.148699911620628
-#  [2089.197 ]
-#  [2104.6228]
-#  [2105.9958]
-#  [2101.235 ]
-#  [2084.7603]
-#  [2077.1606]] # 오늘 종가 예측
 
-# model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
-# model.add(LSTM(32, return_sequences=True))
-# model.add(LSTM(4))
-# model.add(Dense(8, activation='relu'))
-# model.add(Dense(4, activation='relu'))
-# model.add(Dense(1, activation='relu'))
-# loss:  152.17245483398438
-# acc:  152.17245483398438
-# RMSE :  12.335851243863786
-# R2 :  -0.3404910789915949
-
-# model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
-# model.add(LSTM(32, return_sequences=True))
-# model.add(LSTM(4))
-# model.add(Dense(8, activation='relu'))
-# model.add(Dense(8, activation='relu'))
-# model.add(Dense(1, activation='relu'))
-# loss:  163.28549194335938
-# acc:  163.28549194335938
-# RMSE :  12.778350384998525
-# R2 :  -0.4383853979843466
-
-# model.add(LSTM(128, input_shape=(4, 1), return_sequences=True))
-# model.add(LSTM(32, return_sequences=True))
-# model.add(LSTM(4))
-# model.add(Dense(16, activation='relu'))
-# model.add(Dense(8, activation='relu'))
-# model.add(Dense(1, activation='relu'))
 
 model.summary()
 
@@ -178,7 +124,7 @@ model.compile(loss='mse', optimizer='adadelta', metrics=['mse'])
 
 from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
-model.fit(x_train, y_train, epochs=10, batch_size=10, verbose=1, callbacks=[early_stopping])
+model.fit(x_train, y_train, epochs=1000, batch_size=10, verbose=1, callbacks=[early_stopping])
 
 
 # 4. 평가

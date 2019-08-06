@@ -67,26 +67,50 @@ model = Sequential()
 # RMSE :  1.9186733623366525
 # R2 :  0.9428506116743651
 
-model.add(LSTM(50, input_shape=(6, 1), activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(1, activation='relu'))
+# model.add(LSTM(50, input_shape=(6, 1), activation='relu'))
+# model.add(Dense(20, activation='relu'))
+# model.add(Dense(20, activation='relu'))
+# model.add(Dense(20, activation='relu'))
+# model.add(Dense(20, activation='relu'))
+# model.add(Dense(1, activation='relu'))
 # loss:  3.696310070465095
 # acc:  3.696310070465095
 # RMSE :  1.9225789822682176
 # R2 :  0.942617710160758
 
+
+# model.add(LSTM(64, input_shape=(6, 1), return_sequences=True))
+# model.add(LSTM(16))
+# model.add(Dense(6, activation='relu'))
+# model.add(Dense(5, activation='relu'))
+# model.add(Dense(1, activation='relu'))
+# loss:  3.8690283393874707
+# acc:  3.8690283393874707
+# RMSE :  1.9669845764909588
+# R2 :  0.9399363938325372
+
+model.add(LSTM(64, input_shape=(6, 1), return_sequences=True))
+model.add(LSTM(32))
+model.add(Dense(32))
+model.add(Dense(32))
+model.add(Dense(32))
+model.add(Dense(1))
+# loss:  5.297100422904167
+# acc:  5.297100422904167
+# RMSE :  2.3015430799027423
+# R2 :  0.9177667014745667
+
 model.summary()
 
 
 # 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])    # 회귀
+from keras.optimizers import Adam
+# model.compile(loss='mse', optimizer=Adam(lr=0.001, beta_1=0.9, beta_2=0.999), metrics=['mse'])    # 회귀
+model.compile(loss='mse', optimizer=Adam(lr=0.01, beta_1=0.9, beta_2=0.999), metrics=['mse'])    # 회귀
 
 from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
-model.fit(x_train, y_train, epochs=1000, batch_size=10, verbose=1,
+early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
+model.fit(x_train, y_train, epochs=1000, batch_size=30, verbose=1,
             validation_split=0.2, callbacks=[early_stopping])
 
 
