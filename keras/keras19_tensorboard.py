@@ -46,7 +46,7 @@ early_stopping = EarlyStopping(monitor='loss', patience=100, mode='auto')
 model.fit(x_train, y_train, epochs=300, batch_size=1, callbacks=[early_stopping, tb_hist], validation_data=(x_val, y_val))
 
 # cmd
-# cmd 창에서 위에 입력한 경로로 이동: TensorBoard(log_dir='입력한경로'...)
+# cmd 창에서 위에 입력한 경로로 이동: TensorBoard(log_dir='입력한경로'...) # graph 폴더가 있는 폴더까지만 이동
 # cmd 창에 우측의 명령어 입력: tensorboard --logdir=./graph
 # 크롬에서 http://localhost:6006
 

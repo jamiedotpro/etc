@@ -1,0 +1,38 @@
+# data
+# --keras                                                       # --sklearn
+# model = Sequential / Models                                   # model = RandomForestClassifier()
+# model.fit(x_train, y_train  ...metrics acc/mse/mae)           # model.fit(x_train, y_train)
+# model.evaluate(x_test, y_test) ...return loss, acc/mse/mae    # model.Score(x_test, y_test)
+# model.predict(새로운 x, 새로운 y)                              # model.predict(...)
+
+--------------------------------------------------------------------------------------------------
+SVC
+LinearSVC
+KNeighborsClassfier
+KNeighborsRegressor
+
+RandomForestClassifier
+RandomFOrestRegressor
+
+from sklearn.linear_model import LinearRegression, Ridge, Lasso,
+
+
+
+--------------------------------------------------------------------------------------------------
+Keras Regression Metrics
+Below is a list of the metrics that you can use in Keras on regression problems.
+
+Mean Squared Error: mean_squared_error, MSE or mse
+Mean Absolute Error: mean_absolute_error, MAE, mae
+Mean Absolute Percentage Error: mean_absolute_percentage_error, MAPE, mape
+Cosine Proximity: cosine_proximity, cosine
+
+--------------------------------------------------------------------------------------------------
+Keras Classification Metrics
+Below is a list of the metrics that you can use in Keras on classification problems.
+
+Binary Accuracy: binary_accuracy, acc
+Categorical Accuracy: categorical_accuracy, acc
+Sparse Categorical Accuracy: sparse_categorical_accuracy
+Top k Categorical Accuracy: top_k_categorical_accuracy (requires you specify a k parameter)
+Sparse Top k Categorical Accuracy: sparse_top_k_categorical_accuracy (requires you specify a k parameter)
