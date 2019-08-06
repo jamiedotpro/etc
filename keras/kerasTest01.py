@@ -42,7 +42,7 @@ last_price = np.array(kospi['종가'])
 # print(last_price)
 
 size = 5
-def split_5(seq, size):
+def split_n(seq, size):
     aaa = []
     for i in range(len(seq) - size + 1):
         subset = seq[i:(i+size)]
@@ -50,7 +50,7 @@ def split_5(seq, size):
     print(type(aaa))
     return np.array(aaa)
 
-dataset = split_5(last_price, size)
+dataset = split_n(last_price, size)
 print('===================================')
 print(dataset)
 
@@ -80,7 +80,7 @@ last_price_last_days = last_price[last_price.shape[0]-test_days:]
 test_days += 1
 last_price_last_days = np.append(last_price_last_days, last_price[len(last_price)-1])
 
-dataset_test = split_5(last_price_last_days, size)
+dataset_test = split_n(last_price_last_days, size)
 x_test = dataset_test[:, 0:4]
 y_test = dataset_test[:, 4:]
 

@@ -34,10 +34,6 @@ encoder.fit(y)
 y = encoder.transform(y)
 y = np_utils.to_categorical(y)
 
-# print(y)
-# import sys
-# sys.exit()
-
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=66, shuffle=True, test_size=0.2)
 
