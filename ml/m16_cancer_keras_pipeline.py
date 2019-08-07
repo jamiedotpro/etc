@@ -94,7 +94,7 @@ search = RandomizedSearchCV(estimator=model,
                             n_iter=1, n_jobs=-1, cv=3, verbose=1)
                             # 작업이 10회 수행, 3겹 교차검증 사용
 
-# pipe에서 search를 받아서 fit하면 내부의
+# pipe에서 search를 받아서 fit하면 내부의 search가 fit 된다.
 pipe = make_pipeline(MinMaxScaler(), search)
 pipe.fit(x_train, y_train)
 
