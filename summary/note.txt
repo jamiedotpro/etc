@@ -2,8 +2,8 @@
 # --keras                                                       # --sklearn
 # model = Sequential / Models                                   # model = RandomForestClassifier()
 # model.fit(x_train, y_train  ...metrics acc/mse/mae)           # model.fit(x_train, y_train)
-# model.evaluate(x_test, y_test) ...return loss, acc/mse/mae    # model.Score(x_test, y_test)
-# model.predict(새로운 x, 새로운 y)                              # model.predict(...)
+# model.evaluate(x_test, y_test) ...return loss, acc/mse/mae    # model.score(x_test, y_test)
+# model.predict(새로운 x, 새로운 y)                              # model.predict(새로운 x, 새로운 y)
 
 --------------------------------------------------------------------------------------------------
 SVC

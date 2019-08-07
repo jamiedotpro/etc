@@ -27,7 +27,7 @@ parameters = {
 
 # RandomizedSearchCV --- (*2)
 kfold_cv = KFold(n_splits=5, shuffle=True)
-clf = RandomizedSearchCV(SVC(), parameters)#, cv=kfold_cv)
+clf = RandomizedSearchCV(SVC(), parameters, cv=kfold_cv)
 clf.fit(x_train, y_train)
 print('최적의 매개 변수 =', clf.best_estimator_)
 
@@ -37,9 +37,9 @@ print('최종 정답률 = ', accuracy_score(y_test, y_pred))
 last_score = clf.score(x_test, y_test)
 print('최종 정답률 = ', last_score)
 
-# 최적의 매개 변수 = SVC(C=1, cache_size=200, class_weight=None, coef0=0.0,
+# 최적의 매개 변수 = SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
 #   decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='linear',
 #   max_iter=-1, probability=False, random_state=None, shrinking=True,
 #   tol=0.001, verbose=False)
-# 최종 정답률 =  1.0
-# 최종 정답률 =  1.0
+# 최종 정답률 =  0.9666666666666667
+# 최종 정답률 =  0.9666666666666667

@@ -39,8 +39,6 @@ print('최종 정답률 = ', last_score)
 #             max_depth=4, max_features=2, max_leaf_nodes=None,
 #             min_impurity_decrease=0.0, min_impurity_split=None,
 #             min_samples_leaf=1, min_samples_split=2,
-#             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=None,
+#             min_weight_fraction_leaf=0.0, n_estimators=150, n_jobs=None,
 #             oob_score=False, random_state=None, verbose=0,
 #             warm_start=False)
-# 최종 정답률 =  0.9333333333333333
-# 최종 정답률 =  0.9333333333333333

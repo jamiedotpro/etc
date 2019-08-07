@@ -69,6 +69,7 @@ print(y_test.shape)
 # 학습하기
 model = Sequential()
 model.add(Dense(8, input_shape=(4, ), activation='relu'))
+# model.add(Dropout(0.1))
 model.add(Dense(3, activation='softmax'))
 
 # loss='categorical_crossentropy': 분류 모델에서는 이거로 써야 함
@@ -85,6 +86,7 @@ history = model.fit(x_train, y_train, validation_data=(x_test, y_test),
 # 분류 모델에서는 Accuracy를 쓰는게 좋음
 print('\n Test Accuracy: %.4f' % (model.evaluate(x_test, y_test)[1]))
 y_predict = model.predict_classes(x_test)
+# Test Accuracy: 1.0000
 
 print(y_predict)
 print(encoder.inverse_transform(y_predict))
