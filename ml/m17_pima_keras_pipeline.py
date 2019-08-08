@@ -82,13 +82,11 @@ hyperparameters = create_hyperparameters()
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import make_pipeline
-
-
-from sklearn.model_selection import RandomizedSearchCV
 # make_pipeline과 pipeline의 차이는 디폴트로 지정된 키 이름을 사용할지, 키 이름을 직접 입력할지의 차이임
 # pipe = make_pipeline(MinMaxScaler(), model) # == pipe = Pipeline([('minmaxscaler', MinMaxScaler()), ('kerasclassifier', model)])
 pipe = Pipeline([('minmaxscaler', MinMaxScaler()), ('kcf', model)])
 
+from sklearn.model_selection import RandomizedSearchCV
 search = RandomizedSearchCV(estimator=pipe,
                             param_distributions=hyperparameters,
                             n_iter=10, n_jobs=-1, cv=3, verbose=1)
@@ -112,5 +110,5 @@ from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
 model.fit(x_train, y_train, batch_size=model_dic['kcf__batch_size'], epochs=500, callbacks=[early_stopping], verbose=0)
 
-print('acc: ', model.evaluate(x_test, y_test))
-# acc:  [0.7378770782575979, 0.7597402574180009]
+print('loss, acc: ', model.evaluate(x_test, y_test))
+# loss, acc:  [0.7378770782575979, 0.7597402574180009]

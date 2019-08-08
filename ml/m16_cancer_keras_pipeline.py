@@ -115,6 +115,6 @@ from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
 model.fit(x_train, y_train, batch_size=model_dic['kerasclassifier2__batch_size'], epochs=500, callbacks=[early_stopping])
 
-print('acc: ', model.evaluate(x_test, y_test))
-# acc:  [0.1325709614575955, 0.9473684168698495]
+print('loss, acc: ', model.evaluate(x_test, y_test))
+# loss, acc:  [0.1325709614575955, 0.9473684168698495]
 
