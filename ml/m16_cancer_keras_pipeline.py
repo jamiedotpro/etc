@@ -75,7 +75,7 @@ def create_hyperparameters():
     batches = [5,10,20,30]
     optimizers = ['rmsprop', 'adam', 'adadelta']
     dropout = np.linspace(0.0, 0.4, 5)
-    return{'batch_size':batches, 'optimizer':optimizers, 'keep_prob':dropout}
+    return{'kerasclassifier2__batch_size':batches, 'kerasclassifier2__optimizer':optimizers, 'kerasclassifier2__keep_prob':dropout}
 
 from keras.wrappers.scikit_learn import KerasClassifier # 사이킷런과 호환하도록 함
 model = KerasClassifier(build_fn=build_network, verbose=1)
@@ -89,20 +89,22 @@ from sklearn.pipeline import make_pipeline
 # pipe = Pipeline([('scaler', MinMaxScaler()), ('svm', SVC())])
 
 from sklearn.model_selection import RandomizedSearchCV
-search = RandomizedSearchCV(estimator=model,
+# pipe = make_pipeline(MinMaxScaler(), model) # ==  pipe = Pipeline([('minmaxscaler', MinMaxScaler()), ('kerasclassifier', model)])
+pipe = Pipeline([('minmaxscaler', MinMaxScaler()), ('kerasclassifier2', model)])
+search = RandomizedSearchCV(estimator=pipe,
                             param_distributions=hyperparameters,
                             n_iter=1, n_jobs=-1, cv=3, verbose=1)
                             # 작업이 10회 수행, 3겹 교차검증 사용
+# validation_data가 있고, 교차검증을 사용할 때는 pipeline을 하지 않으면 train데이터에 validation데이터가 포함되어서 새로운 데이터로 예측할 때 오차가 많이남
 
-# pipe에서 search를 받아서 fit하면 내부의 search가 fit 된다.
-pipe = make_pipeline(MinMaxScaler(), search)
-pipe.fit(x_train, y_train)
+search.fit(x_train, y_train)
 
 print(search.best_params_)
 
 print('score: ', search.score(x_test, y_test))
 print('predict: \n', search.predict(x_test))
 
+'''
 
 model_dic = search.best_params_
 
@@ -114,3 +116,5 @@ model.fit(x_train, y_train, batch_size=model_dic['batch_size'], epochs=500, call
 
 print('acc: ', model.evaluate(x_test, y_test))
 # acc:  [0.1325709614575955, 0.9473684168698495]
+
+'''
