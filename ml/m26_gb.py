@@ -47,3 +47,13 @@ print('최적의 매개 변수 =', clf.best_estimator_)
 y_pred = clf.predict(x_test)
 last_score = clf.score(x_test, y_test)
 print('최종 정답률 = ', last_score)
+
+# 최적의 매개 변수 = GradientBoostingRegressor(alpha=0.9, criterion='friedman_mse', init=None,
+#              learning_rate=0.1, loss='ls', max_depth=3, max_features=None,
+#              max_leaf_nodes=None, min_impurity_decrease=0.0,
+#              min_impurity_split=None, min_samples_leaf=1,
+#              min_samples_split=2, min_weight_fraction_leaf=0.0,
+#              n_estimators=100, n_iter_no_change=None, presort='auto',
+#              random_state=None, subsample=1.0, tol=0.0001,
+#              validation_fraction=0.1, verbose=0, warm_start=False)
+# 최종 정답률 =  0.9174968888808568

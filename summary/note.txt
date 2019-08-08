@@ -6,6 +6,13 @@
 # model.predict(새로운 x, 새로운 y)                              # model.predict(새로운 x, 새로운 y)
 
 --------------------------------------------------------------------------------------------------
+DecisionTree, GradientBoosting, RandomForest, XGB :
+장점 : 전처리 불필요
+단점 : train 과적합
+
+트리, 시계열은 범위 밖의 데이터를 잘 예측하지 못함
+
+--------------------------------------------------------------------------------------------------
 SVC
 LinearSVC
 KNeighborsClassfier
@@ -15,8 +22,6 @@ RandomForestClassifier
 RandomFOrestRegressor
 
 from sklearn.linear_model import LinearRegression, Ridge, Lasso,
-
-
 
 --------------------------------------------------------------------------------------------------
 Keras Regression Metrics
