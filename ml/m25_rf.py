@@ -29,7 +29,7 @@ y = newlist
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 parameters = {
-    'n_estimators': [100],
+    'n_estimators': [100, 200],
     'max_depth': [2, 3, 4],
     'n_jobs': [-1]
 }
@@ -43,3 +43,13 @@ y_pred = clf.predict(x_test)
 print('최종 정답률 = ', accuracy_score(y_test, y_pred))
 last_score = clf.score(x_test, y_test)
 print('최종 정답률 = ', last_score)
+
+# 최적의 매개 변수 = RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+#             max_depth=2, max_features='auto', max_leaf_nodes=None,
+#             min_impurity_decrease=0.0, min_impurity_split=None,
+#             min_samples_leaf=1, min_samples_split=2,
+#             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
+#             oob_score=False, random_state=None, verbose=0,
+#             warm_start=False)
+# 최종 정답률 =  0.9387755102040817
+# 최종 정답률 =  0.9387755102040817

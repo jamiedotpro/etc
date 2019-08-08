@@ -29,7 +29,7 @@ y = newlist
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 parameters = {
-    'n_estimators': [100, 500],
+    'n_estimators': [100, 200, 500],
     'max_depth': [2, 3, 4],
     'n_jobs': [-1]
 }
@@ -43,3 +43,13 @@ y_pred = clf.predict(x_test)
 print('최종 정답률 = ', accuracy_score(y_test, y_pred))
 last_score = clf.score(x_test, y_test)
 print('최종 정답률 = ', last_score)
+
+# 최적의 매개 변수 = XGBClassifier(base_score=0.5, booster='gbtree', colsample_bylevel=1,
+#        colsample_bynode=1, colsample_bytree=1, gamma=0, learning_rate=0.1,
+#        max_delta_step=0, max_depth=4, min_child_weight=1, missing=None,
+#        n_estimators=500, n_jobs=-1, nthread=None,
+#        objective='multi:softprob', random_state=0, reg_alpha=0,
+#        reg_lambda=1, scale_pos_weight=1, seed=None, silent=None,
+#        subsample=1, verbosity=1)
+# 최종 정답률 =  0.939795918367347
+# 최종 정답률 =  0.939795918367347

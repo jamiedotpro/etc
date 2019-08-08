@@ -29,7 +29,7 @@ y = newlist
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 parameters = {
-    'max_depth': [3, 4, 5, 7, 10, 15, 20],
+    'max_depth': [2, 4, 5, 10, 15],
 }
 
 kfold_cv = KFold(n_splits=5, shuffle=True)
@@ -41,3 +41,12 @@ y_pred = clf.predict(x_test)
 print('최종 정답률 = ', accuracy_score(y_test, y_pred))
 last_score = clf.score(x_test, y_test)
 print('최종 정답률 = ', last_score)
+
+# 최적의 매개 변수 = DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=2,
+#             max_features=None, max_leaf_nodes=None,
+#             min_impurity_decrease=0.0, min_impurity_split=None,
+#             min_samples_leaf=1, min_samples_split=2,
+#             min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+#             splitter='best')
+# 최종 정답률 =  0.9357142857142857
+# 최종 정답률 =  0.9357142857142857
