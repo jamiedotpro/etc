@@ -83,7 +83,7 @@ pipe = Pipeline([('standardscaler', StandardScaler()), ('kcf', model)])
 from sklearn.model_selection import RandomizedSearchCV
 search = RandomizedSearchCV(estimator=pipe,
                             param_distributions=hyperparameters,
-                            n_iter=1, n_jobs=1, cv=3, verbose=1)
+                            n_iter=10, n_jobs=1, cv=3, verbose=1)
                             # 작업이 10회 수행, 3겹 교차검증 사용
 
 search.fit(x_train, y_train)
@@ -102,5 +102,5 @@ early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
 model.fit(x_train, y_train, batch_size=model_dic['kcf__batch_size'], epochs=500, callbacks=[early_stopping], verbose=1)
 
 print('loss, acc: ', model.evaluate(x_test, y_test))
-# loss, acc:  [0.27704580608679324, 0.9234693882416706]
+# loss, acc:  [0.2682528607699336, 0.9275510199215947]
 
