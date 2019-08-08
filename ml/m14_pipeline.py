@@ -20,10 +20,11 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, train_s
 
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
-
-pipe = Pipeline([('scaler', MinMaxScaler()), ('svm', SVC())])   # 방법1
 # from sklearn.pipeline import make_pipeline
-# pipe = make_pipeline(MinMaxScaler(), SVC((C=10)))  # 방법2
+# make_pipeline과 pipeline의 차이는 디폴트로 지정된 키 이름을 사용할지, 키 이름을 직접 입력할지의 차이임
+# pipe = make_pipeline(MinMaxScaler(), SVC((C=10)) # == pipe = Pipeline([('minmaxscaler', MinMaxScaler()), ('svm', SVC())])
+pipe = Pipeline([('scaler', MinMaxScaler()), ('svm', SVC())])
+
 pipe.fit(x_train, y_train)
 
 print('테스트 점수: ', pipe.score(x_test, y_test))

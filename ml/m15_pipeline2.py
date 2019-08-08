@@ -26,9 +26,9 @@ parameters = {
 }
 
 parameters2 = {
-    'C': [1, 10, 100, 1000],
-    'kernel': ['linear', 'rbf', 'sigmoid'],
-    'gamma': [0.001, 0.0001],
+    'svc__C': [1, 10, 100, 1000],
+    'svc__kernel': ['linear', 'rbf', 'sigmoid'],
+    'svc__gamma': [0.001, 0.0001],
 }
 
 
@@ -38,44 +38,23 @@ kfold_cv = KFold(n_splits=5, shuffle=True)
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 
-#!! pipeline 수정필요
-# 방법1
-pipe = Pipeline([('scaler', MinMaxScaler()), ('svm', SVC())])
+# make_pipeline과 pipeline의 차이는 디폴트로 지정된 키 이름을 사용할지, 키 이름을 직접 입력할지의 차이임
+# pipe = make_pipeline(MinMaxScaler(), model) # == pipe = Pipeline([('minmaxscaler', MinMaxScaler()), ('kerasclassifier', model)])
 
-clf = RandomizedSearchCV(pipe, parameters, cv=5)
+# 방법1 Pipeline
+pipe = Pipeline([('scaler', MinMaxScaler()), ('svm', SVC())])
+clf = RandomizedSearchCV(pipe, parameters, cv=kfold_cv)
 #clf = RandomizedSearchCV(SVC(), parameters, cv=kfold_cv)
 
+###################################
+'''
+# 방법2 make_pipeline
+from sklearn.pipeline import make_pipeline
+pipe = make_pipeline(MinMaxScaler(), SVC())
+clf = RandomizedSearchCV(pipe, parameters2, cv=kfold_cv)
+'''
+
 clf.fit(x_train, y_train)
-
-
-# # 방법1-1
-# clf = RandomizedSearchCV(SVC(), parameters, cv=kfold_cv)
-# pipe = Pipeline([('scaler', MinMaxScaler()), ('svm', SVC())])
-# pipe.fit(x_train, y_train)
-# print(pipe.score(x_train, y_train))
-# import sys
-# sys.exit()
-
-###################################
-
-# 방법2
-# from sklearn.pipeline import make_pipeline
-# clf = RandomizedSearchCV(SVC(), parameters2, cv=kfold_cv)
-# pipe = make_pipeline(MinMaxScaler(), clf)
-# pipe.fit(x_train, y_train)  # clf.fit이 내부에서 처리됨
-# pipe.score(x_train, y_train)
-
-###################################
-# pipe = Pipeline([('vec', CountVectorizer()), ('clf', LogisticRegression()])
-# param_grid = [{'clf__C': [1, 10, 100, 1000]}
-# gs = GridSearchCV(pipe, param_grid)
-# gs.fit(X, y)
-###################################
-# pipe = make_pipeline(CountVectorizer(), LogisticRegression())     
-# param_grid = [{'logisticregression__C': [1, 10, 100, 1000]}
-# gs = GridSearchCV(pipe, param_grid)
-# gs.fit(X, y)
-###################################
 
 print('최적의 매개 변수 =', clf.best_estimator_)
 
