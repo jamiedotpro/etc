@@ -63,7 +63,7 @@ data_generator = ImageDataGenerator(
 model.fit_generator(data_generator.flow(X_train, Y_train, batch_size=32),
                     # 몇배로 증폭시킬 것인가
                     # X_train * steps_per_epoch => 실제로 생성(증폭)되는 이미지 개수
-                    steps_per_epoch=200, # len(X_train) // 32,
+                    steps_per_epoch=200,
                     epochs=200,
                     validation_data=(X_test, Y_test),
                     verbose=1,
