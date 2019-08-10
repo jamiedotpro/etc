@@ -204,7 +204,7 @@ data_generator = ImageDataGenerator(
     horizontal_flip=True
 )
 
-# add_img_cnt 수만큼 x_train 전체 이미지 개수를 늘린다
+# 이미지 개수 늘리기
 add_img_cnt = 200
 x_train_cnt = len(x_train)
 for j in range(add_img_cnt):
@@ -253,3 +253,9 @@ history = model.fit(x_train_original, y_train_original,
 # 테스트 정확도 출력
 # 분류 모델에서는 Accuracy를 쓰는게 좋음
 print('\n Test Accuracy: %.4f' % (model.evaluate(x_test_original, y_test_original)[1]))
+
+
+# 이미지 개수 *2 일 때 결과
+# {'optimizer': 'adadelta', 'keep_prob': 0.0, 'batch_size': 1}
+# score:  0.2181
+# Test Accuracy: 0.1062
