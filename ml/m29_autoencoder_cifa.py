@@ -1,33 +1,37 @@
 # 데이터-------------------------------------------
-from keras.datasets import mnist
+from keras.datasets import cifar10
 import numpy as np
-(x_train, _), (x_test, _) = mnist.load_data()
+
+(x_train, _), (x_test, _) = cifar10.load_data()
+
+# CIFAR_10은 3채널로 구성된 32*32 이미지 60000장을 갖는다.
+IMG_CHANNELS = 3
+IMG_ROWS = 32
+IMG_COLS = 32
 
 x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32') / 255.
-x_train = x_train.reshape(len(x_train), 28, 28, 1)
-x_test = x_test.reshape(len(x_test), 28, 28, 1)
+x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 print(x_train.shape)
 print(x_test.shape)
 
 # 모델 구성-------------------------------------------
-from keras.layers import Input, Dense, Conv2D, Flatten, MaxPooling2D
+from keras.layers import Input, Dense
 from keras.models import Model
-from keras.regularizers import Regularizer
 
 # 인코딩될 표현(representation)의 크기
 encoding_dim = 32
+in_cnt = np.prod(x_train.shape[1:]) # 32 * 32 * 3 = 3072
 
 # 입력 플레이스홀더
-input_img = Input(shape=(28, 28, 1))
+input_img = Input(shape=(in_cnt,))
 # 'encoded'는 입력의 인코딩된 표현
-encoded = Conv2D(encoding_dim, (3, 3), activation='relu', padding='same')(input_img)
-encoded = Conv2D(64, (3, 3), activation='relu', padding='same')(encoded)
-
+encoded = Dense(encoding_dim, activation='relu')(input_img)
+encoded = Dense(100, activation='relu')(encoded)
+encoded = Dense(encoding_dim, activation='relu')(encoded)
 # 'decoded'는 입력의 손실있는 재구성 (lossy reconstruction)
-decoded = Conv2D(encoding_dim, (3, 3), activation='relu', padding='same')(encoded)
-# encoded = UpSampling2D((2, 2))(encoded)   # 이미지를 크기를 늘려준다
-decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(decoded)
+decoded = Dense(in_cnt, activation='sigmoid')(encoded)
 
 # 입력을 입력의 재구성으로 매핑할 모델
 autoencoder = Model(input_img, decoded)
@@ -36,13 +40,9 @@ autoencoder.summary()
 
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
 
-from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
-history = autoencoder.fit(x_train, x_train, epochs=100, batch_size=256,
-                            shuffle=True, validation_data=(x_test, x_test),
-                            callbacks=[early_stopping])
+history = autoencoder.fit(x_train, x_train, epochs=100, batch_size=256, shuffle=True, validation_data=(x_test, x_test))
 
-# 숫자들을 인코딩 / 디코딩
+# 이미지들을 인코딩 / 디코딩
 # test set에서 숫자들을 가져왔다는 것을 유의
 decoded_imgs = autoencoder.predict(x_test)
 
@@ -56,14 +56,14 @@ plt.figure(figsize=(20, 4))
 for i in range(n):
     # 원본 데이터
     ax = plt.subplot(2, n, i + 1)
-    plt.imshow(x_test[i].reshape(28, 28))
+    plt.imshow(x_test[i].reshape(IMG_ROWS, IMG_COLS, 3))
     plt.gray()
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
     # 재구성된 데이터
     ax = plt.subplot(2, n, i + 1 + n)
-    plt.imshow(decoded_imgs[i].reshape(28, 28))
+    plt.imshow(decoded_imgs[i].reshape(IMG_ROWS, IMG_COLS, 3))
     plt.gray()
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
