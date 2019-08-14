@@ -1,4 +1,4 @@
-from keras.applications import VGG16
+from keras.applications import ResNet50
 from keras.datasets import mnist
 from keras.utils import np_utils
 import numpy as np
@@ -16,7 +16,7 @@ x_test = np.dstack([x_test] * 3)
 x_train = x_train.reshape(-1, 28, 28, 3)
 x_test = x_test.reshape (-1, 28, 28, 3)
 
-# VGG16에서 요구하는 최소 이미지 크기에 맞게 이미지 크기 조정 (처음에 48 * 48로 작업)
+# 이미지 크기 조정
 from keras.preprocessing.image import img_to_array, array_to_img
 x_train = np.asarray([img_to_array(array_to_img(im, scale=False).resize((32, 32))) for im in x_train])
 x_test = np.asarray([img_to_array(array_to_img(im, scale=False).resize((32, 32))) for im in x_test])
@@ -24,8 +24,8 @@ x_test = np.asarray([img_to_array(array_to_img(im, scale=False).resize((32, 32))
 y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
 
-conv_base = VGG16(weights='imagenet', include_top=False,
-                    input_shape=(32, 32, 3))
+conv_base = ResNet50(weights='imagenet', include_top=False,
+                        input_shape=(32, 32, 3))
 
 from keras.models import Sequential
 from keras.layers import Dense, Flatten
@@ -45,7 +45,7 @@ early_stopping_callback = EarlyStopping(monitor='loss', patience=10)
 
 # 모델의 실행
 history = model.fit(x_train, y_train, validation_data=(x_test, y_test),
-                    epochs=30, batch_size=200, verbose=1,
+                    epochs=1, batch_size=200, verbose=1,
                     callbacks=[early_stopping_callback])
 
 # 테스트 정확도 출력
