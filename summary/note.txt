@@ -23,6 +23,13 @@ RandomForestRegressor
 
 from sklearn.linear_model import LinearRegression, Ridge, Lasso,
 
+컬럼의 중요도 분석
+DT, RF, GB, XGB
+
+비지도
+PCA 컬럼축소
+autoencoder y값 없이 예측 (x값만 사용)
+
 --------------------------------------------------------------------------------------------------
 Keras Regression Metrics
 Below is a list of the metrics that you can use in Keras on regression problems.
