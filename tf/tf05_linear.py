@@ -24,7 +24,7 @@ with tf.Session() as sess:
 
     # Fit the line
     for step in range(2001):    # epochs
-        _, cost_val, w_val, b_val = sess.run([train, cost, w, b])   # sess.run == model.fit
+        _, cost_val, w_val, b_val = sess.run([train, cost, w, b])
 
         if step % 20 == 0:
             print(step, cost_val, w_val, b_val)

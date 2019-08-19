@@ -14,5 +14,5 @@ print('node3: ', node3)
 # ... 행렬보다 더 큰 거는 텐서
 
 sess = tf.Session()
-print('sess.run(node1, node2): ', sess.run([node1, node2])) # model.fit 과 비슷한 개념
+print('sess.run(node1, node2): ', sess.run([node1, node2]))
 print('sess.run(node3): ', sess.run(node3))

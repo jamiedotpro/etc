@@ -11,10 +11,10 @@ node3 = tf.add(node1, node2)
 # 1 스칼라
 # (1, 2) 벡터 == input.dim=1, input_shape=(1,)
 # [[1, 2]] 행렬 == input_shape=(2,3)
-# ... 행렬보다 더 큰 거는 텐서
+# ... 행렬보다 더 큰 텐서는 그래프
 
 sess = tf.Session()
-# print('sess.run(node1, node2): ', sess.run([node1, node2])) # model.fit 과 비슷한 개념
+# print('sess.run(node1, node2): ', sess.run([node1, node2]))
 # print('sess.run(node3): ', sess.run(node3))
 
 a = tf.placeholder(tf.float32)
