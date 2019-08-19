@@ -15,4 +15,6 @@ git push origin master
 # 파일명 변경 시
 git mv --force podfile Podfile
 
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
 git clone https://github.com/jamiedotpro/etc.git
