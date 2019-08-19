@@ -15,4 +15,4 @@ git push origin master
 # 파일명 변경 시
 git mv --force podfile Podfile
 
-git clone https://github.com/OWEN-JUN/COMPOSE.git
+git clone https://github.com/jamiedotpro/etc.git
