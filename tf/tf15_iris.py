@@ -26,7 +26,7 @@ keep_prob = tf.placeholder(tf.float32)
 # layer 1
 w1 = tf.get_variable('w1', shape=[4, 10], initializer=tf.contrib.layers.xavier_initializer())
 b1 = tf.Variable(tf.random_normal([10]))
-layer1 = tf.nn.sigmoid(tf.matmul(x, w1) + b1)
+layer1 = tf.nn.relu(tf.matmul(x, w1) + b1)
 layer1 = tf.nn.dropout(layer1, keep_prob)
 
 # output
