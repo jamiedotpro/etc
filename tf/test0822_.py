@@ -11,7 +11,8 @@ from keras.layers import Dense, LSTM, Input, BatchNormalization, Dropout
 # 빈 5일치 데이터를 보내면 됨
 
 dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-test_file = os.path.join(dir_path, 'data/test0822.csv')
+# test_file = os.path.join(dir_path, 'data/test0822.csv')
+test_file = 'd:/test.csv'
 test_data = pd.read_csv(test_file)
 
 # print(test_data.head())
@@ -84,10 +85,23 @@ def split_n(seq, size):
 dataset = split_n(kp_data, size)
 dataset_r = split_n(kp_data_reverse, size)
 
+
+# ...Scaler 사용해서 정규화
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
+
 def model_(dataset):
 
     x = dataset[:, :in_size]
     y = dataset[:, in_size:]
+
+    print(x.shape)  # (3084, 25, 8)
+    x = np.reshape(x, (x.shape[0], np.prod(x.shape[1:])))   # (3084, 200)
+    scaler.fit(x)
+    x = scaler.transform(x)
+    x = np.reshape(x, (x.shape[0], 25, 8))
+    print(x.shape)  # (3084, 200)
 
     # x = np.reshape(x, (x.shape[0], x.shape[1]*x.shape[2], 1))
     # x = np.reshape(x, (x.shape[0], np.prod(x.shape[1:]), 1))
@@ -121,7 +135,7 @@ def model_(dataset):
 
     from keras.callbacks import EarlyStopping
     early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
-    model.fit(x_train, y_train, epochs=500, batch_size=32, verbose=1, callbacks=[early_stopping], validation_split=0.2)
+    model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1, callbacks=[early_stopping], validation_split=0.2)
 
 
     loss, acc = model.evaluate(x_test, y_test)
@@ -158,6 +172,16 @@ def cross_check(model1, model2, num1=3113):
     y_test = kp[num1:num2, :]
     test1 = kp[num1-25:num1, :]
     test2 = kp[num2:num2+25, :]
+
+    print(test1.shape)  # (25, 8)
+    test1 = np.reshape(test1, (-1, np.prod(test1.shape)))
+    print(test1.shape)
+    test2 = np.reshape(test2, (-1, np.prod(test2.shape)))
+    test1 = scaler.transform(test1)
+    test2 = scaler.transform(test2)
+    test1 = np.reshape(test1, (25, 8))
+    test2 = np.reshape(test2, (25, 8))
+    print(test1.shape)
 
     test1 = np.reshape(test1, (-1, 25, 8))
     
