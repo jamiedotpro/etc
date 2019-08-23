@@ -8,11 +8,6 @@ node3 = tf.add(node1, node2)
 # print('node1: ', node1, 'node2: ', node2)
 # print('node3: ', node3)
 
-# 1 스칼라
-# (1, 2) 벡터 == input.dim=1, input_shape=(1,)
-# [[1, 2]] 행렬 == input_shape=(2,3)
-# ... 행렬보다 더 큰 텐서는 그래프
-
 sess = tf.Session()
 # print('sess.run(node1, node2): ', sess.run([node1, node2]))
 # print('sess.run(node3): ', sess.run(node3))
