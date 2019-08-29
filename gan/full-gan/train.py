@@ -79,8 +79,7 @@ class Trainer:
         return np.random.normal(0, 1, (instances,self.LATENT_SPACE_SIZE))
 
     def plot_checkpoint(self,e):
-        curr_dir = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(curr_dir, 'data/sample_' + str(e) + '.png')
+        filename = 'D:/data/full-gan/sample_' + str(e) + '.png'
 
         noise = self.sample_latent_space(16)
         images = self.generator.Generator.predict(noise)
