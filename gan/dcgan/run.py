@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from train import Trainer
-import os
 
 # Command Line Argument Method
 HEIGHT  = 64
@@ -11,8 +10,7 @@ EPOCHS = 100
 BATCH = 128
 CHECKPOINT = 10
 
-curr_dir = os.path.dirname(os.path.abspath(__file__))
-PATH = os.path.join(curr_dir, 'data/church_outdoor_train_lmdb_color.npy')
+PATH = 'D:/data/lsun_npy/church_outdoor_train_lmdb_color.npy'
 # PATH = "/data/church_outdoor_train_lmdb_color.npy"
 
 trainer = Trainer(height=HEIGHT,\

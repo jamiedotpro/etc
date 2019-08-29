@@ -34,3 +34,8 @@ np.save('D:/data/lsun_npy/church_outdoor_train_lmdb_gray.npy', imageArrGray)
 np.save('D:/data/lsun_npy/church_outdoor_train_lmdb_color.npy', imageArrColor)
 # np.save('/data/church_outdoor_train_lmdb_gray.npy', imageArrGray)
 # np.save('/data/church_outdoor_train_lmdb_color.npy', imageArrColor)
+
+
+
+# Shape of ImageArr Gray:  (126227, 64, 64)
+# Shape of ImageArr Color:  (126227, 64, 64, 3)

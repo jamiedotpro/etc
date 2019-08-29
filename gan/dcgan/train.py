@@ -7,7 +7,6 @@ from random import randint
 import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
-import os
 
 class Trainer:
     def __init__(self, width = 28, height= 28, channels = 1, latent_size=100, epochs =50000, batch=32, checkpoint=50,model_type=-1,data_path = ''):
@@ -105,7 +104,7 @@ class Trainer:
         return np.random.normal(0, 1, (instances,self.LATENT_SPACE_SIZE))
 
     def plot_checkpoint(self,e):
-        filename = "/data/sample_"+str(e)+".png"
+        filename = "D:/data/dcgan/sample_"+str(e)+".png"
 
         noise = self.sample_latent_space(16)
         images = self.generator.Generator.predict(noise)
@@ -131,8 +130,7 @@ class Trainer:
         return
 
     def plot_check_batch(self,b,images):
-        curr_dir = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(curr_dir, 'data/batch_check_' + str(b) + '.png')
+        filename = 'D:/data/dcgan/batch_check_' + str(b) + '.png'
         # filename = "/data/batch_check_"+str(b)+".png"
 
         subplot_size = int(np.sqrt(images.shape[0]))

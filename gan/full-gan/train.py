@@ -6,7 +6,6 @@ from keras.datasets import mnist
 from random import randint
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
 class Trainer:
     def __init__(self, width = 28, height= 28, channels = 1, latent_size=100, epochs =50000, batch=32, checkpoint=50,model_type=-1):
