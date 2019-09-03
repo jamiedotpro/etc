@@ -72,3 +72,19 @@ pip install keras
 
 xgboost (python 3.7 용) 설치
 D:\>pip install D:\xgboost-0.90-cp37-cp37m-win_amd64.whl
+
+
+
+# ms sql ----------------------------------------------------
+
+Sql Server Configuration Manager
+- SQL Server 네트워크 구성 -> MSSQLSERVER에 대한 프로토콜 -> TCP/IP. 사용으로 변경
+Microsoft SQL Server Management Studio
+- Windows 인증으로 먼저 로그인
+- 서버 속성 -> 서버 인증 -> SQL Server 및 Windows 인증 모드. 로 변경
+- 프로그램 종료. 작업 관리자에서 MSSQLSERVER 서비스 재시작
+- 프로그램 실행. SQL Server 인증으로 로그인.
+
+csv 가져오기
+DB 우클릭 -> 태스크 -> 데이터 가져오기 -> 데이터 원본(Flat File Source 선택) ->
+대상(Microsoft OLE DB Driver for SQL Server 선택)
