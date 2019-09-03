@@ -50,7 +50,7 @@ decoded_imgs = autoencoder.predict(x_test)
 # Matplotlib 사용
 import matplotlib.pyplot as plt
 
-n = 10 # 몇 개의 숫자를 나타낼 rjtdlswl
+n = 10 # 몇 개의 숫자를 나타낼 것인지
 plt.figure(figsize=(20, 4))
 for i in range(n):
     # 원본 데이터
