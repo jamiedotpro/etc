@@ -21,6 +21,11 @@ git config --global user.email johndoe@example.com
 git clone https://github.com/jamiedotpro/etc.git
 
 
+# .gitignore 가 제대로 작동되지 않을 때 캐시 삭제
+git rm -r --cached .
+git add .
+git commit -m 'fixed untracked files'
+
 
 # pip ----------------------------------------------------
 
