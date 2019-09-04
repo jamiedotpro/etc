@@ -139,4 +139,4 @@ polls 폴더 안의 models.py, admin.py 에 내용 추가
 python manage.py makemigrations
 python manage.py migrate
 
-서버 실행해서 관리자 페이지에서 추가한 내용 확인하기
+서버 실행해서 관리자 페이지에서 추가한 내용 확인하기.
