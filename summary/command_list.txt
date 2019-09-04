@@ -90,3 +90,53 @@ DB 우클릭 -> 태스크 -> 데이터 가져오기 -> 데이터 원본(Flat Fil
 대상(Microsoft OLE DB Driver for SQL Server 선택)
 
 pip install pymssql
+
+
+# django ----------------------------------------------------
+command 에서...
+pip install django
+django-admin startproject mysite    # mysite 라는 폴더가 생성되며, 폴더 내에 파일이 자동으로 생성됨
+python manage.py startapp polls     # 생성된 폴더로 이동 후 해당 명령 실행. 이후 폴더 위치 동일
+
+mysite 폴더 내 settings.py 파일 안의 ALLOWED_HOSTS = [] 를 수정
+==> ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+mysite 와 polls 를 연결 (ip, apps, db, time_zone... 수정)
+mysite 폴더 내 settings.py 파일 안의 INSTALLED_APPS = [ 에 추가
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'polls.apps.PollsConfig',       # 여기 추가
+]
+TIME_ZONE = 'Asia/Seoul' # 한국으로 변경
+
+sqlite 사용하겠다 명시하기
+python manage.py migrate
+
+서버 실행
+python manage.py runserver 0.0.0.0:8000
+
+실행된 페이지 확인하기
+http://localhost:8000
+http://localhost:8000/admin/
+http://127.0.0.1:8000/admin/
+
+서버 종료
+Ctrl + c 키 눌러서 종료
+
+관리자 계정 생성
+python manage.py createsuperuser
+유저명, 이메일 주소, 비번 입력하라는 대로 진행
+
+다시 서버 실행 후 관리자 페이지에 접속해서 확인해보기
+
+polls 폴더 안의 models.py, admin.py 에 내용 추가
+
+python manage.py makemigrations
+python manage.py migrate
+
+서버 실행해서 관리자 페이지에서 추가한 내용 확인하기
