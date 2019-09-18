@@ -1,3 +1,9 @@
+## gan...
+Keras-SRGANs-master/VN_dataset/
+Keras-SRGANs-master/data_hr/
+Keras-SRGANs-master/data_lr/
+Keras-SRGANs-master/output/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
