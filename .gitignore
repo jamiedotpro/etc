@@ -1,8 +1,10 @@
 ## gan...
-Keras-SRGANs-master/VN_dataset/
-Keras-SRGANs-master/data_hr/
-Keras-SRGANs-master/data_lr/
-Keras-SRGANs-master/output/
+gan/Keras-SRGANs-master/VN_dataset/
+gan/Keras-SRGANs-master/data_hr/
+gan/Keras-SRGANs-master/data_lr/
+gan/Keras-SRGANs-master/output/
+gan/Keras-SRGANs-master/program_output/
+gan/Keras-SRGANs-master/model/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
