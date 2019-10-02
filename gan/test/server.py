@@ -2,7 +2,7 @@ import socketserver, threading
 from os.path import exists
 import socket
 
-HOST =''
+HOST ='192.168.0.159'
 PORT = 9009 # 다운로드 서버 -> 클라이언트
 PORT2 = 9010 # 업로드 클라이언트 -> 서버
 ADDR1=((HOST, PORT))
