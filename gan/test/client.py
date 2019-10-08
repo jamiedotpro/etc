@@ -2,6 +2,7 @@ import socket
 import time
 HOST ='192.168.0.159'
 # HOST ='BitAi.iptime.org'
+# HOST ='104.154.169.173'
 PORT = 9009
 PORT2 = 9010 #gen
  
@@ -17,7 +18,7 @@ def getFileFromServer(filename):
             print('파일[%s]: 서버에 존재하지 않거나 전송중 오류발생' %filename)
             return
  
-        with open('download/' + filename,'wb') as f:
+        with open('./tcp/download/' + filename,'wb') as f:
             try:
                 while  data:
                     f.write(data)
