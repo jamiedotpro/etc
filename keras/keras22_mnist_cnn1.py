@@ -1,3 +1,6 @@
+import time
+start = time.time()
+
 #-*- coding: utf-8 -*-
 
 from keras.datasets import mnist
@@ -80,3 +83,5 @@ history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test),
 # 테스트 정확도 출력
 # 분류 모델에서는 Accuracy를 쓰는게 좋음
 print('\n Test Accuracy: %.4f' % (model.evaluate(X_test, Y_test)[1]))
+
+print("time :", time.time() - start)
