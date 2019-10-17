@@ -27,6 +27,7 @@ git add .
 git commit -m 'fixed untracked files'
 
 
+
 # pip ----------------------------------------------------
 
 # venv 환경이 필요한 프로젝트 폴더로 이동 후 아래 명령어 실행
@@ -44,12 +45,25 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 Set-ExecutionPolicy Unrestricted -Force
 
 
+# 가상환경 구성 후 아래 명령어들로 설치된 패키지 목록을 저장하고 설치
+
+# 현재 구성한 환경을 requirements.txt 로 만드는 명령어
+pip freeze > requirements.txt
+
+# requirements.txt 를 지정한 환경에 설치하는 명령어
+pip install -r requirements.txt
+
+
+
 ------------------------
 # cv2
 python -m pip install opencv-python
 
 # pillow
 pip install pillow
+
+# telegram bot
+pip install python-telegram-bot --upgrade
 
 
 
@@ -90,6 +104,7 @@ DB 우클릭 -> 태스크 -> 데이터 가져오기 -> 데이터 원본(Flat Fil
 대상(Microsoft OLE DB Driver for SQL Server 선택)
 
 pip install pymssql
+
 
 
 # django ----------------------------------------------------
