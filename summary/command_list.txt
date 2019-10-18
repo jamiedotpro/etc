@@ -65,6 +65,13 @@ pip install pillow
 # telegram bot
 pip install python-telegram-bot --upgrade
 
+# hdbscan
+pip install hdbscan
+
+
+아래의 에러가 pip install... 중에 뜨면 이 파일 설치: visualcppbuildtools_full.exe
+error: Microsoft Visual C++ 14.0 is required. Get it with "Microsoft Visual C++ Build Tools": https://visualstudio.microsoft.com/downloads/
+
 
 
 # 설치 순서 ----------------------------------------------------
