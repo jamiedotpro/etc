@@ -128,13 +128,13 @@ def load_training_data(directory, ext, image_shape, number_of_images=1000, train
     x_train_hr = hr_images(x_train)
     x_train_hr = normalize(x_train_hr)
 
-    x_train_lr = lr_images(x_train, 4)
+    x_train_lr = lr_images(x_train, 2)
     x_train_lr = normalize(x_train_lr)
 
     x_test_hr = hr_images(x_test)
     x_test_hr = normalize(x_test_hr)
 
-    x_test_lr = lr_images(x_test, 4)
+    x_test_lr = lr_images(x_test, 2)
     x_test_lr = normalize(x_test_lr)
 
     print("========= End loading data ==========")
@@ -180,28 +180,38 @@ def load_test_data(directory, ext,image_shape, number_of_images=100):
 
 # While training save generated image(in form LR, SR, HR)
 # Save only one image as sample  
-def plot_generated_images(output_dir, epoch, generator, x_test_hr, x_test_lr, dim=(1, 3), figsize=(15, 5)):
+def plot_generated_images(output_dir, epoch, generator,complex_generator, x_test_hr, x_test_lr, dim=(1, 4), figsize=(20, 5)):
     examples = x_test_hr.shape[0]
     print(examples)
     value = randint(0, examples)
     image_batch_hr = denormalize(x_test_hr)
     image_batch_lr = x_test_lr
     gen_img = generator.predict(image_batch_lr)
+    gen_c_img = complex_generator.predict(image_batch_lr)
     generated_image = denormalize(gen_img)
+    generated_image2 = denormalize(gen_c_img)
     image_batch_lr = denormalize(image_batch_lr)
 
     plt.figure(figsize=figsize)
 
     plt.subplot(dim[0], dim[1], 1)
     plt.imshow(image_batch_lr[value], interpolation='nearest')
+    plt.title("lr")
     plt.axis('off')
 
     plt.subplot(dim[0], dim[1], 2)
     plt.imshow(generated_image[value], interpolation='nearest')
+    plt.title("sr")
     plt.axis('off')
 
     plt.subplot(dim[0], dim[1], 3)
+    plt.imshow(generated_image2[value], interpolation='nearest')
+    plt.title("complex_sr")
+    plt.axis('off')
+
+    plt.subplot(dim[0], dim[1], 4)
     plt.imshow(image_batch_hr[value], interpolation='nearest')
+    plt.title("hr")
     plt.axis('off')
 
     plt.tight_layout()

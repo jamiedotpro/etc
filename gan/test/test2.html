@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+    function changeimage() {
+        var image = document.getElementById('input_img');
+        if (image.src.match("naver")) {
+            image.src = "https://pixabay.com/static/uploads/photo/2015/02/13/09/47/mail-634902__180.png";
+        } else {
+            image.src = "http://img.naver.net/static/www/u/2013/0731/nmms_224940510.gif";
+        }
+    }
+    </script>
+</head>
+<body>
+    <img id="input_img" onclick="changeimage()" src="http://img.naver.net/static/www/u/2013/0731/nmms_224940510.gif">
+
+    <div>
+        <input type='file' id="filename" name="filename"/>
+        <button name='input_img_button' type='button' onclick='input_image()'>이미지 업로드</button>
+    </div>
+</body>
+</html>

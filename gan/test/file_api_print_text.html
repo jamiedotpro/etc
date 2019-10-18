@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+    <head>
+       <title>HTML5 File API Test</title>
+        <meta charset="utf-8" />
+    </head>
+    <script>
+        function readFile() {
+            var file = document.getElementById("file").files[0];
+
+            document.getElementById("fileName").textContent = file.name;
+            document.getElementById("fileSize").textContent = "(" + file.size + "byte)";
+
+            var reader = new FileReader();
+
+            reader.onload = function() {
+                var display = document.getElementById("content");
+                display.textContent = reader.result;
+           };
+
+           reader.onerror = function(evt) {
+                alert(evt.target.error.code);
+            };
+
+            var encodingList = document.getElementById("encoding");
+            var encoding = encodingList.options[encodingList.selectedIndex].value;
+
+           reader.readAsText(file, encoding);
+
+        };
+    </script>
+    <body>
+        <h1>HTML5 File API 테스트</h1>
+       <input id="file" type="file">
+       <select id="encoding">
+           <option>UTF-8</option>
+        </select>
+        <button onclick="readFile()">읽기</button><br />
+        <div>
+            <span id="fileName">File Name</span>
+            <span id="fileSize">File Size</span>
+        </div>
+        <textarea id="content" readonly style="width:600px; height:400px;"></textarea>
+    </body>
+</html>
