@@ -74,6 +74,50 @@ error: Microsoft Visual C++ 14.0 is required. Get it with "Microsoft Visual C++ 
 
 
 
+# gcp flask ----------------------------------------------------
+project 만들기
+VM 인스턴스 생성 (램은 키워서 만듬. n1-highmem-2(vCPU 2개, 13GB 메모리))
+VM 인스턴스의 셸 접속
+# 파일 업로드
+# 원하는 위치로 이동
+# mv _flask_run.py gan/
+# 개별 업로드 말고 아래의 winscp 사용하기
+
+python3 _flask_run.py
+하면 아래의 라이브러리가 없어서 에러남
+
+apt-get install python3-pip
+pip3 install Flask
+pip3 install scikit-image
+
+# pip3 install opencv-python
+apt-get update
+apt-get install -y libsm6 libxext6 libxrender-dev
+pip3 install opencv-python
+
+pip3 install tensorflow==1.14
+pip3 install keras
+
+pip3 uninstall scipy
+pip3 install scipy==1.2.1
+
+
+
+VPC 네트워크
+방화벽 규칙 설정 (송, 수신 용으로 2개 추가)
+외부 아이피 주소 - 유형을 고정으로 변경
+
+
+
+아래는 winscp 사용법
+
+putty, puttygen 설치
+
+puttygen 설명 보기
+https://newpower.tistory.com/192
+
+
+
 # 설치 순서 ----------------------------------------------------
 
 visual studio code (마켓 플레이스, 파이썬 상위 4개, 한글언어팩 1개, csv 상위2개)
