@@ -206,3 +206,18 @@ python manage.py makemigrations
 python manage.py migrate
 
 서버 실행해서 관리자 페이지에서 추가한 내용 확인하기
+
+
+
+# ubuntu ----------------------------------------------------
+virtual box ubuntu 해상도 조정에 필요
+apt-get install -y virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+
+
+
+# lsun ----------------------------------------------------
+python download.py -o D:\data\lsun_zip
+python data.py export D:\data\church_outdoor_train_lmdb --out_dir D:\data\church_outdoor_train_lmdb\expanded --flat
+
+일부만 받을 때
+python download.py -o D:\data\lsun_zip -c tower
