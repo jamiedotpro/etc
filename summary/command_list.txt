@@ -54,6 +54,48 @@ pip freeze > requirements.txt
 # requirements.txt 를 지정한 환경에 설치하는 명령어
 pip install -r requirements.txt
 
+# 가상환경 설정한 디렉터리를 이동해야하는 경우
+# 파이썬에서 가상환경을 생성할 때 이미 해당 경로가 가상환경 폴더 안 파일에 입력되기 때문에, 생성 뒤 폴더를 다른 곳으로 이동시키면 가상환경 구동이 불가능.
+# 해결 방법 : 가상환경폴더의 Scripts 폴더 아래 activate.bat, Activate.ps1, activate 세개의 파일을 수정하면 됨.
+#            파일들 안에 VIRTUAL\_ENV 라는 부분이 있는데, 해당 부분을 옮긴 경로로 수정하면 정상적으로 구동이 가능하다.
+
+
+
+# conda 가상환경 설정 ----------------------------------------------------
+
+pip3 install -U pip virtualenv
+conda create -n venv_tf20 pip python=3.7
+conda activate venv_tf20
+conda deactivate
+
+# 가상환경 삭제
+conda env remove -n venv_tf20
+
+# 가상환경 목록 보기
+conda env list
+
+
+
+# KoNlpy ----------------------------------------------------
+# 자세한 건 공식 홈페이지 참조
+
+# 사전에 업그레이드 필요
+python -m pip install --upgrade pip
+
+# mac
+# open jdk install, version check
+# 시스템 환경설정 -> 개발자의 신원확인을 할 수 없어.. 확인 없이 열기
+brew cask install java
+java -version
+
+# window
+# 아래 파일 받아서 설치
+Microsoft Visual C++ 14.0
+java-1.8.0-openjdk-1.8.0.232-2.b09.ojdkbuild.windows.x86_64.msi     # https://github.com/ojdkbuild/ojdkbuild 여기서 다운
+JPype1-0.7.1-cp37-cp37m-win_amd64.whl                               # KoNlpy 홈페이지에서 받을 수 있음. 버전에 맞춰서 받기
+
+pip3 install konlpy
+
 
 
 ------------------------
@@ -68,6 +110,10 @@ pip install python-telegram-bot --upgrade
 
 # hdbscan
 pip install hdbscan
+
+pip install matplotlib --force-reinstall
+
+python -m pip install --user imblearn
 
 
 아래의 에러가 pip install... 중에 뜨면 이 파일 설치: visualcppbuildtools_full.exe
