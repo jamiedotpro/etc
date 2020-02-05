@@ -30,8 +30,16 @@ git commit -m 'fixed untracked files'
 
 # pip ----------------------------------------------------
 
+# 아나콘다 설치된 파이썬 버전 확인
+conda search python
+
+# 아나콘다 기본 파이썬 버전을 변경
+conda install python=3.7.5
+
 # venv 환경이 필요한 프로젝트 폴더로 이동 후 아래 명령어 실행
 python -m venv .venv
+# 파이썬 버전을 지정해서 가상환경을 설정해야 하는 경우 (c:\ProgramData\Anaconda3\pkgs\python-버전폴더...)
+해당파이썬버전폴더\python -m venv .venv
 
 # 환경 활성화 (windows, mac/ubuntu)
 .venv\Scripts\activate
