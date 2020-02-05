@@ -69,6 +69,22 @@ pip install -r requirements.txt
 #            파일들 안에 VIRTUAL\_ENV 라는 부분이 있는데, 해당 부분을 옮긴 경로로 수정하면 정상적으로 구동이 가능하다.
 
 
+# pip 패키지 검색 (package, description..)
+pip search 검색
+
+# 버전 지정해서 설치
+pip install 패키지명==버전넘버(예:2.3.0)
+
+# 특정 버전 이상 설치
+pip install 패키지명>=버전넘버(예:2.3.0)
+
+# 특정 라이브러리 업그레이드
+pip install --upgrade 패키지명
+
+# 정보 확인
+pip show 패키지명
+
+
 
 # conda 가상환경 설정 ----------------------------------------------------
 
