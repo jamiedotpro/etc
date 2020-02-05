@@ -35,10 +35,7 @@ conda search python
 
 # 아나콘다 기본 파이썬 버전을 변경
 conda install python=3.7.5
-
 # 파이썬 버전 지정해서 아나콘다 가상환경 설정 추가하면, 해당 파이썬 버전이 설치됨
-conda create -n venv_dir_name python=3.6.5 anaconda
-
 
 # venv 환경이 필요한 프로젝트 폴더로 이동 후 아래 명령어 실행
 python -m venv .venv
@@ -76,7 +73,7 @@ pip install -r requirements.txt
 # conda 가상환경 설정 ----------------------------------------------------
 
 pip3 install -U pip virtualenv
-conda create -n venv_tf20 pip python=3.7
+conda create -n venv_tf20 python=3.7
 conda activate venv_tf20
 conda deactivate
 
