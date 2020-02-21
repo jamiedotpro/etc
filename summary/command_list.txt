@@ -195,17 +195,22 @@ https://newpower.tistory.com/192
 visual studio code (마켓 플레이스, 파이썬 상위 4개, 한글언어팩 1개, csv 상위2개)
 anaconda (path 체크 필수)
 graphic driver 최신 업데이트
-cuda 10.0 설치 - (설치 실패하면, cuda - visual studio integration 체크 해제 후 설치)
+cuda 10.1 설치 - (설치 실패하면, cuda - visual studio integration 체크 해제 후 설치)
 cuda 폴더에 cudnn 덮어쓰기
 
 command 창에서 cuda 버전 확인
 nvcc --version
 
-pip install tensorflow-gpu
+tensorflow 2.1 버전을 사용시 아래 파일 설치 필요
+VC_redist.x64.exe
+# 아래는 관련 설명
+# 윈도우용 텐서플로는 비주얼 스튜디오 2019 버전 16.4를 사용하여 빌드되었습니다.
+# 이를 사용하려면 여기에서 “Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019″를 설치하세요.
+# https://support.microsoft.com/ko-kr/help/2977003/the-latest-supported-visual-c-downloads
+# x64: vc_redist.x64.exe
+# 출처: https://tensorflow.blog/category/tensorflow/
 
-pip install keras
-
-(python version downgrade 불필요)
+pip install tensorflow
 
 xgboost (python 3.7 용) 설치
 D:\>pip install D:\xgboost-0.90-cp37-cp37m-win_amd64.whl
