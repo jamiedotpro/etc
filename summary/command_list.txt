@@ -217,6 +217,16 @@ D:\>pip install D:\xgboost-0.90-cp37-cp37m-win_amd64.whl
 
 
 
+# my sql ----------------------------------------------------
+
+https://www.mysql.com/
+DOWNLOADS -> MySQL Community (GPL) Downloads -> MySQL Installer for Windows -> installer download -> No thanks, just start my download.
+
+install...
+Developer Default -> MySQL Server, Workbench... 등 설치 진행 -> TCP/IP, port 등 설정 -> 계정 -> 서버 연결 -> 설치 완료 및 실행 
+
+
+
 # ms sql ----------------------------------------------------
 
 Sql Server Configuration Manager
