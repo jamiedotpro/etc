@@ -192,7 +192,7 @@ https://newpower.tistory.com/192
 
 # 설치 순서 ----------------------------------------------------
 
-visual studio code (마켓 플레이스, 파이썬 상위 4개, 한글언어팩 1개, csv 상위2개)
+visual studio code (마켓 플레이스, 파이썬 상위 4개(python, python for vscode, python extension pack, python extended), 한글언어팩 1개, csv 상위2개)
 anaconda (path 체크 필수)
 graphic driver 최신 업데이트
 cuda 10.1 설치 - (설치 실패하면, cuda - visual studio integration 체크 해제 후 설치)
