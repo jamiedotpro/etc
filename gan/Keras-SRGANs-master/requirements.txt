@@ -4,4 +4,4 @@ scikit-image==0.14.1
 scikit-learn==0.20.1
 scipy==1.1.0
 tqdm==4.28.1
-opencv-python==4.1.0.25
+opencv-python==4.2.0.32
